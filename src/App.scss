@@ -1,0 +1,14 @@
+
+
+body {
+    &.dark .ball {
+        @apply translate-x-full;
+    }
+    &.light .ball {
+        @apply -translate-x-0;
+    }
+}
+
+#toggle-dark:checked + label .ball {
+    @apply translate-x-full;
+}
