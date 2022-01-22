@@ -28,7 +28,7 @@ function Notification({ onClick }) {
 
   return (
     <div className='fixed notify-wrapper z-50 p-4 pt-20 w-full overflow-y-hidden'>
-      <div className='bg-white text-black border dark:bg-slate-900 dark:text-white shadow-md p-4 rounded-md lg:w-[40%] md:w-[50%] w-full float-right dark:border-slate-300'>
+      <div className='bg-white text-black border shadow-md p-4 rounded-md lg:w-[40%] md:w-[50%] w-full float-right dark:border-slate-300'>
         <div className='flex justify-between items-center border-b border-slate-300 dark:border-slate-600 py-2'>
           <h1 className='font-medium text-xl'>Notifications</h1>
           <div className='hover:text-slate-600'

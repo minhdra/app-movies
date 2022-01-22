@@ -10,7 +10,6 @@ import { Link } from 'react-router-dom';
 
 function Banner({ data }) {
   SwiperCore.use([Autoplay]);
-  console.log('banner render...')
   return (
     <>
       {/* Head */}

@@ -70,8 +70,8 @@ function Header() {
   return (
     <>
       <header
-        className='w-full fixed z-10 bg-white text-gray-800 dark:bg-slate-900 dark:text-white
-    dark:border-slate-600 border-b border-slate-300 shadow-md'
+        className='w-full fixed z-10 bg-white text-gray-800
+    dark:border-slate-600 border-b border-slate-300 shadow-md dark:bg-slate-900'
       >
         {/* Desktop and ipad */}
         <nav className='w-full mx-auto md:flex hidden flex-wrap items-center justify-between py-4 px-4'>
@@ -79,7 +79,7 @@ function Header() {
           <div className='flex-shrink-0 flex items-center flex-1'>
             <div className='flex items-center'>
               <Link
-                className='toggleColour text-gray-800 dark:text-white no-underline hover:no-underline font-bold text-2xl lg:text-4xl flex items-end'
+                className='toggleColour text-gray-800 no-underline hover:no-underline font-bold text-2xl lg:text-4xl flex items-end'
                 to='/'
               >
                 {/* Icon from: http://www.potlabicons.com/ */}
@@ -109,7 +109,7 @@ function Header() {
                       focus:outline-none bg-transparent placeholder:italic h-full w-full'
               placeholder='Search name of movies...'
             />
-            <span className='cursor-pointer inline-block dark:text-white text-gray-800'>
+            <span className='cursor-pointer inline-block text-gray-800'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 className='h-6 w-6'
@@ -173,7 +173,7 @@ function Header() {
               </label>
             </div>
             {/* User wrapper */}
-            <div className='hidden md:flex dark:text-white text-gray-800 items-center md:flex-shrink-1'>
+            <div className='hidden md:flex text-gray-800 items-center md:flex-shrink-1'>
               {/* user */}
               <div>
                 {isLogin ? (

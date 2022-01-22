@@ -1,6 +1,15 @@
 
 
 body {
+    &.dark {
+        @apply text-slate-200 bg-slate-900;
+        & nav, aside {
+            @apply bg-slate-900;
+        }
+        & a, svg {
+            @apply text-slate-200;
+        }
+    }
     &.dark .ball {
         @apply translate-x-full;
     }

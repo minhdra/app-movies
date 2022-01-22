@@ -18,7 +18,7 @@ function Home() {
   }, []);
 
   return (
-    <div className='flex dark:bg-slate-900 dark:text-white min-h-screen'>
+    <div className='flex dark:bg-slate-900 min-h-screen'>
       <Sidebar show={false} />
       <div className='pt-24 py-4 w-full flex overflow-hidden'>
         {/* Main content */}
@@ -32,11 +32,12 @@ function Home() {
                       const params = new URLSearchParams(
                         new URL(item.jumpAddress).search
                       );
-                      const category =
-                        params.get('type') === '0' ? '/movie/' : '/tv/';
+                      const id = params.get('id');
+                      const link =
+                        params.get('type') === '0' ? '/movie/' + id : `/tv/${id}?episode=1`;
                       return {
                         image: item.imageUrl,
-                        link: category + params.get('id'),
+                        link: link,
                         id: params.get('id'),
                         title: item.title,
                       };
@@ -53,11 +54,12 @@ function Home() {
                       const params = new URLSearchParams(
                         new URL(item.jumpAddress).search
                       );
-                      const category =
-                        params.get('type') === '0' ? '/movie/' : '/tv/';
+                      const id = params.get('id');
+                      const link =
+                        params.get('type') === '0' ? '/movie/' + id : `/tv/${id}?episode=1`;
                       return {
                         image: item.imageUrl,
-                        link: category + params.get('id'),
+                        link: link,
                         id: params.get('id'),
                         title: item.title,
                       };

@@ -33,7 +33,7 @@ function SearchBoard({ data }) {
           {data.map((item) => (
             <li key={item.id}>
               <Link
-                to={`${item.domainType ? '/tv' : '/movie'}/${item.id}`}
+                to={`${item.domainType ? `/tv/${item.id}?episode=1` : `/movie/${item.id}`}`}
                 className='flex justify-start items-start py-1 hover:text-orange-600 hover:bg-slate-200 dark:hover:opacity-80 dark:hover:text-white dark:hover:bg-transparent hover:font-medium'
               >
                 <div className='w-[100px] h-[60px] overflow-hidden transition flex-shrink-0'>

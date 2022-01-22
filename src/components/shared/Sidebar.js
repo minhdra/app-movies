@@ -95,7 +95,7 @@ function Sidebar({ onClick, show }) {
       {show && (
         <div className='fixed inset-0 z-50 h-screen'>
           <Overlay onClick={onClick} />
-          <aside className='w-full sm:w-10/12 h-screen bg-white dark:bg-slate-900 dark:text-white p-4 overflow-auto transition-all relative show pt-6'>
+          <aside className='w-full sm:w-10/12 h-screen bg-white p-4 overflow-auto transition-all relative show pt-6'>
             <div
               className='absolute top-4 right-4 hover:rotate-180 rounded-sm cursor-pointer transition select-none'
               onClick={() => onClick(false)}
@@ -137,7 +137,7 @@ function Sidebar({ onClick, show }) {
                     to={item.href}
                     className={classNames(
                       item.id === navId
-                        ? 'text-orange-500'
+                        ? 'text-orange-500 dark:text-orange-500'
                         : 'dark:text-gray-300 text-gray-600 dark:hover:bg-gray-500 dark:hover:text-white',
                       'px-3 py-2 rounded-md text-md font-medium transition duration-100 hover:bg-slate-200 dark:hover:bg-slate-800 hover:text-orange-500 flex items-center'
                     )}
@@ -159,7 +159,7 @@ function Sidebar({ onClick, show }) {
                     <Link
                       key={item.id}
                       to={item.link}
-                      className='flex items-center py-2 px-3 mb-2 text-slate-800 dark:text-white hover:bg-slate-300 rounded-md'
+                      className='flex items-center py-2 px-3 mb-2 text-slate-800 hover:bg-slate-300 rounded-md dark:hover:bg-slate-800'
                     >
                       <span
                         dangerouslySetInnerHTML={{ __html: item.icon }}
@@ -176,7 +176,7 @@ function Sidebar({ onClick, show }) {
         </div>
       )}
 
-      <aside className='sticky pt-20 top-0 w-fit md:block hidden min-w-max h-screen bg-white dark:bg-slate-900 dark:text-white'>
+      <aside className='sticky pt-20 top-0 w-fit md:block hidden min-w-max h-screen bg-white dark:bg-slate-900'>
         <div className='p-4'>
           <ul className='list-none flex flex-col items-center'>
             {navigation.map((item) => (
@@ -187,7 +187,7 @@ function Sidebar({ onClick, show }) {
                     navId === item.id
                       ? 'bg-slate-200 text-slate-900 dark:bg-slate-600'
                       : '',
-                    'w-16 h-16 text-xs rounded-xl flex flex-col items-center justify-center dark:text-white hover:bg-slate-100 hover:text-orange-500 dark:hover:bg-slate-500 transition duration-100'
+                    'w-16 h-16 text-xs rounded-xl flex flex-col items-center justify-center hover:bg-slate-100 hover:text-orange-500 dark:hover:bg-slate-500 transition duration-100'
                   )}
                 >
                   <span dangerouslySetInnerHTML={{ __html: item.icon }}></span>

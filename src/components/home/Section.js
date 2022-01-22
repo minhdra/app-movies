@@ -10,7 +10,6 @@ import 'swiper/scss/pagination';
 import { Link } from 'react-router-dom';
 
 function Section({ data }) {
-  console.log('section render...')
   return (
     <>
       {/* Head */}

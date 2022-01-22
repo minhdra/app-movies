@@ -5,6 +5,7 @@ import Header from './components/shared/Header';
 import Home from './view/Home';
 import MovieDetail from './view/Movie';
 import Footer from './components/shared/Footer';
+import TvDetail from './view/Tv';
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
           <Route path='movie' element={<Home />} />
           <Route path='movie/:id' element={<MovieDetail />} />
           <Route path='tv' element={<Home />} />
-          <Route path='tv/:id' element={<Home />} />
+          <Route path='tv/:id' element={<TvDetail />} />
           <Route path='*' element={<Navigate to='/'/>} />
         </Routes>
         <Footer />
