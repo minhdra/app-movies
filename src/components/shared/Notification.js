@@ -1,4 +1,4 @@
-import Overlay from '../shared/Overlay';
+import Overlay from './Overlay';
 
 const notifies = [
   {

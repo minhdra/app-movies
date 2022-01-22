@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Notification from './Notification';
-import Sidebar from '../sidebar/Sidebar';
+import Sidebar from './Sidebar';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');

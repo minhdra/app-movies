@@ -1,10 +1,10 @@
 import './App.scss';
 import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
 
-import Home from './components/main/home/Home';
-import MovieDetail from './components/main/movie/MovieDetail';
-import Header from './components/header/Header';
-import Footer from './components/footer/Footer';
+import Header from './components/shared/Header';
+import Home from './components/home/Home';
+import MovieDetail from './view/Movie';
+import Footer from './components/shared/Footer';
 
 function App() {
   return (
@@ -12,9 +12,11 @@ function App() {
       <Router>
         <Header />
         <Routes>
-          <Route index element={<Home />} />
-          <Route path='movie' element={<MovieDetail />} />
+          <Route path='/' element={<Home />} />
+          <Route path='movie' element={<Home />} />
           <Route path='movie/:id' element={<MovieDetail />} />
+          <Route path='tv' element={<Home />} />
+          <Route path='tv/:id' element={<Home />} />
           <Route path='*' element={<Navigate to='/'/>} />
         </Routes>
         <Footer />

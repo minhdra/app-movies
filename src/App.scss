@@ -12,3 +12,28 @@ body {
 #toggle-dark:checked + label .ball {
     @apply translate-x-full;
 }
+
+.show {
+    animation: show ease-in-out .3s;
+}
+.hide {
+    animation: hide ease-in-out .3s;
+}
+
+@keyframes show {
+    from {
+        left: -100%;
+    }
+    to {
+        left: 0;
+    }
+}
+
+@keyframes hide {
+    from {
+        left: 0;
+    }
+    to {
+        left: -100%;
+    }
+}

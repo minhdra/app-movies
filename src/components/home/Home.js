@@ -8,7 +8,7 @@ import 'swiper/scss';
 import 'swiper/scss/navigation';
 import 'swiper/scss/pagination';
 import { Link } from 'react-router-dom';
-import Sidebar from '../../sidebar/Sidebar';
+import Sidebar from '../shared/Sidebar';
 
 const API_HOME =
   'https://ga-mobile-api.loklok.tv/cms/app/homePage/getHome?page=';
@@ -35,6 +35,7 @@ function Home() {
       .then((data) => setHome(data.data));
   }, []);
   SwiperCore.use([Autoplay]);
+
   // Search board
   useEffect(() => {
     fetch(API_SEARCH_BOARD, options)
@@ -76,7 +77,7 @@ function Home() {
               home.recommendItems[0].recommendContentVOList.map((item) => (
                 <SwiperSlide key={item.id}>
                   <Link
-                    to='/'
+                    to='#'
                     className='sm:bg-inherit relative rounded-xl overflow-hidden shadow-md block'
                     onClick={() => console.log(item)}
                   >
@@ -99,7 +100,7 @@ function Home() {
         {/* Top searches */}
         <div className='hidden md:block w-[30%] pl-4 relative h-screen overflow-hidden overflow-y-auto'>
           {/* Head */}
-          <div className='flex items-end pb-4 sticky top-0 bg-white shadow dark:bg-slate-900'>
+          <div className='flex items-end pb-4 z-30 sticky top-0 bg-white shadow dark:bg-slate-900'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               className='h-6 w-6 text-red-600 animate-bounce'
@@ -128,18 +129,17 @@ function Home() {
               {searchBoard.map((item) => (
                 <li key={item.id}>
                   <Link
-                    onClick={() => console.log(item)}
                     to={`${item.domainType ? 'tv' : 'movie'}/${item.id}`}
-                    className='flex py-1'
+                    className='flex justify-start items-start py-1 hover:text-orange-600 hover:bg-slate-200 dark:hover:opacity-80 dark:hover:text-white dark:hover:bg-transparent hover:font-medium'
                   >
-                    <div className='w-28 rounded-lg overflow-hidden'>
+                    <div className='w-[100px] h-[60px] overflow-hidden transition flex-shrink-0'>
                       <img
-                        className='w-full object-cover'
+                        className='w-[100px] h-[60px] rounded-lg object-cover'
                         src={item.cover}
                         alt=''
                       />
                     </div>
-                    <h2 className='text-md pl-4'>{item.title}</h2>
+                    <h2 className='text-md pl-4 pr-2 transition'>{item.title}</h2>
                   </Link>
                 </li>
               ))}

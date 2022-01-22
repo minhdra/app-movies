@@ -1,0 +1,14 @@
+export function formatTime(timeInSeconds) {
+  const result = new Date(timeInSeconds * 1000).toISOString().substr(11, 8);
+
+  return {
+    hours: result.substr(0, 2),
+    minutes: result.substr(3, 2),
+    seconds: result.substr(6, 2),
+  };
+}
+
+export function srt2wtt(url) {
+  return `https://srt-to-vtt.vercel.app/?url=${encodeURIComponent(url)}`;
+}
+

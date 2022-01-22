@@ -1,22 +1,49 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
-import './sidebar.scss';
-import Overlay from '../shared/Overlay';
+import Overlay from './Overlay';
 
 const navigation = [
-  { id: 1, name: 'Movies', href: '#', icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
-</svg>` },
-  { id: 2, name: 'TV Shows', href: '#', icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  {
+    id: 1,
+    name: 'Home',
+    href: '/',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+  </svg>`,
+  },
+  {
+    id: 2,
+    name: 'Movies',
+    href: '#',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+  </svg>`,
+  },
+  {
+    id: 3,
+    name: 'TV Shows',
+    href: '#',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-</svg>`  },
-  { id: 3, name: 'Animations', href: '#', icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-</svg>` },
-  { id: 4, name: 'Plans', href: '#', icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-</svg>` },
+</svg>`,
+  },
+  {
+    id: 4,
+    name: 'Discovery',
+    href: '#',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+  </svg>`,
+  },
+  {
+    id: 5,
+    name: 'All',
+    href: '#',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+  </svg>`,
+  },
 ];
 const options = [
   {
@@ -115,7 +142,10 @@ function Sidebar({ onClick, show }) {
                       'px-3 py-2 rounded-md text-md font-medium transition duration-100 hover:bg-slate-200 dark:hover:bg-slate-800 hover:text-orange-500 flex items-center'
                     )}
                   >
-                    <span dangerouslySetInnerHTML={{__html: item.icon}} className='mr-2'></span>
+                    <span
+                      dangerouslySetInnerHTML={{ __html: item.icon }}
+                      className='mr-2'
+                    ></span>
                     {item.name}
                   </Link>
                 ))}
@@ -160,7 +190,7 @@ function Sidebar({ onClick, show }) {
                     'w-16 h-16 text-xs rounded-xl flex flex-col items-center justify-center dark:text-white hover:bg-slate-100 hover:text-orange-500 dark:hover:bg-slate-500 transition duration-100'
                   )}
                 >
-                  <span dangerouslySetInnerHTML={{ __html: item.icon } }></span>
+                  <span dangerouslySetInnerHTML={{ __html: item.icon }}></span>
                   {item.name}
                 </Link>
               </li>
