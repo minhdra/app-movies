@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 export default axios.create({
   baseURL: 'https://ga-mobile-api.loklok.tv/cms/app',
   headers: {
@@ -7,4 +8,5 @@ export default axios.create({
     versioncode: '11',
     clienttype: 'ios_jike_default',
   },
+  
 });

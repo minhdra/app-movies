@@ -60,6 +60,8 @@ function Player({ sources, subtitles }) {
       <div className='flex w-full' ref={containerRef}>
         <div className='relative'>
           <HlsPlayer
+            // Access bad url
+            crossOrigin=''
             src={sources[quality]?.url || ''}
             playerRef={playerRef}
             onClickCapture={handleScreenClicked}
