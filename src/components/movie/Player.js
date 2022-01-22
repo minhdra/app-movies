@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import HlsPlayer from 'react-hls-player';
 import { formatTime, srt2wtt } from '../../utils/utils';
+import screenfull from 'screenfull';
 
 function Player({ sources, subtitles }) {
   const [quality, setQuality] = useState(0);
@@ -11,9 +12,13 @@ function Player({ sources, subtitles }) {
   const [time, setTime] = useState(0);
   const [subtitleIndex, setSubtitleIndex] = useState(0);
   const [fullScreen, setFullScreen] = useState(false);
-
-  const playerRef = useRef(null);
-  const containerRef = useRef(null);
+  const [showAdvancedSetting, setShowAdvancedSetting] = useState(false);
+  const [speed, setSpeed] = useState(1);
+  const [showControl, setShowControl] = useState(true);
+  
+  const playerRef = useRef();
+  const containerRef = useRef();
+  const timeoutRef = useRef(null);
 
   useEffect(() => {
     paused ? playerRef.current.pause() : playerRef.current.play();
@@ -27,13 +32,22 @@ function Player({ sources, subtitles }) {
     playerRef.current && setDuration(playerRef.current.duration);
   }, [duration]);
 
+  useEffect(() => {
+    const element = containerRef.current;
+    if (element) fullScreen ? screenfull.request(element) : screenfull.exit();
+  }, [fullScreen]);
+
+  useEffect(() => {
+    playerRef.current && (playerRef.current.playbackRate = speed);
+    // console.log([playerRef.current])
+  }, [speed]);
+
   const handleScreenClicked = (e) => {
-    setPaused(!paused);
-    // if (settingsActive) {
-    //   setSettingsActive(false);
-    // } else {
-    //   // setPaused((prev) => !prev);
-    // }
+    if (showAdvancedSetting) {
+      setShowAdvancedSetting(false);
+    } else {
+      setPaused(!paused);
+    }
 
     // if (e.detail === 2) {
     //   // setOnFullScreen((prev) => !prev);
@@ -56,9 +70,28 @@ function Player({ sources, subtitles }) {
   };
 
   return (
-    <div className='w-full'>
-      <div className='flex w-full' ref={containerRef}>
-        <div className='relative'>
+    <div className='w-full h-auto'>
+      <div
+        className='flex w-full'
+        ref={containerRef}
+        onMouseMove={() => {
+          if (timeoutRef.current) clearTimeout(timeoutRef.current);
+          setShowControl(true);
+          playerRef.current.classList.remove('cursor-none');
+          timeoutRef.current = setTimeout(() => {
+            playerRef.current.classList.add('cursor-none');
+            setShowControl(false);
+            setShowAdvancedSetting(false);
+          }, 1000);
+        }}
+        onMouseLeave={() => {
+          playerRef.current.classList.remove('cursor-none');
+          if (timeoutRef.current) clearTimeout(timeoutRef.current);
+          setShowControl(false);
+          setShowAdvancedSetting(false);
+        }}
+      >
+        <div className='relative overflow-hidden'>
           <HlsPlayer
             // Access bad url
             crossOrigin=''
@@ -68,6 +101,7 @@ function Player({ sources, subtitles }) {
             className='w-full h-full cursor-pointer'
             autoPlay={false}
             controls={false}
+            poster=''
             playsInline
             onWaiting={() => setLoading(true)}
             onPlaying={() => setLoading(false)}
@@ -77,52 +111,57 @@ function Player({ sources, subtitles }) {
             }}
           >
             {subtitleIndex >= 0 && (
-                <track
-                  kind='subtitles'
-                  srcLang='sub'
-                  label='Subtitle'
-                  src={srt2wtt(subtitles[subtitleIndex]?.url)}
-                  default
-                />
-              )}
+              <track
+                kind='subtitles'
+                srcLang='sub'
+                label='Subtitle'
+                src={srt2wtt(subtitles[subtitleIndex]?.url)}
+                default
+              />
+            )}
           </HlsPlayer>
-          {loading && !paused && (
-            <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer'>
-              <div className='border-white border-4 border-r-transparent w-12 h-12 rounded-full animate-spin'></div>
-            </div>
-          )}
-          {paused && (
-            <div
-              className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer'
-              onClickCapture={handleScreenClicked}
-            >
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                className='h-[50px] w-[50px] text-white'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
+          <>
+            {loading && !paused && (
+              <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer'>
+                <div className='border-white border-4 border-r-transparent w-12 h-12 rounded-full animate-spin'></div>
+              </div>
+            )}
+          </>
+          <>
+            {paused && (
+              <div
+                className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer'
+                onClickCapture={handleScreenClicked}
               >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='2'
-                  d='M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z'
-                />
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='2'
-                  d='M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
-                />
-              </svg>
-            </div>
-          )}
-          <div className='h-12 w-full absolute bottom-0 left-0 bg-black bg-opacity-40 text-white px-4'>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  className='h-[50px] w-[50px] text-white'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  stroke='currentColor'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth='2'
+                    d='M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z'
+                  />
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth='2'
+                    d='M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
+                  />
+                </svg>
+              </div>
+            )}
+          </>
+          {/* Control */}
+          <div className={`h-12 w-full absolute translate-y-full opacity-0 bottom-0 left-0 bg-black bg-opacity-40 text-white px-4 transition ${showControl ? 'translate-y-0 opacity-100' : ''} duration-300`}>
             {/* seek */}
-            <div className='w-full absolute top-0 left-0'>
-              <div className='relative h-2 mb-3'>
-                <div className='overflow-hidden h-2 w-full text-xs flex rounded bg-orange-200'>
+            <div className='w-full absolute top-0 left-0 -translate-y-1/2'>
+              <div className='relative h-2'>
+                <div className='overflow-hidden h-2 w-[99%] m-auto text-xs flex rounded bg-orange-200'>
                   <div
                     style={{
                       width: `${Math.round((time / duration) * 1000) / 10}%`,
@@ -148,10 +187,9 @@ function Player({ sources, subtitles }) {
                 </div>
               </div>
             </div>
-
             <div className='flex justify-between items-center h-full select-none'>
               {/* Left */}
-              <div className='flex items-center'>
+              <div className='flex items-center h-full'>
                 {/* button pause, play */}
                 {paused ? (
                   <div>
@@ -229,9 +267,9 @@ function Player({ sources, subtitles }) {
                   </svg>
                 </div>
                 {/* button volume */}
-                <div className='px-1 flex group'>
+                <div className='px-1 flex h-full items-center'>
                   <span
-                    className=''
+                    className='peer h-full flex items-center'
                     onClick={() => {
                       volume === 0 ? setVolume(100) : setVolume(0);
                     }}
@@ -275,7 +313,7 @@ function Player({ sources, subtitles }) {
                       </svg>
                     )}
                   </span>
-                  <div className='w-0 group-hover:w-auto transition-all duration-300 overflow-hidden flex items-center justify-end volume'>
+                  <div className='w-0 peer-hover:w-full hover:w-full transition-all duration-300 overflow-hidden flex items-center justify-end volume h-full'>
                     <input
                       className='slider w-[100px]'
                       type='range'
@@ -303,7 +341,9 @@ function Player({ sources, subtitles }) {
                 <div
                   className='px-1'
                   onClick={() => {
-                    subtitleIndex >= 0 ? setSubtitleIndex(-1) : setSubtitleIndex(0);
+                    subtitleIndex >= 0
+                      ? setSubtitleIndex(-1)
+                      : setSubtitleIndex(0);
                   }}
                 >
                   {subtitleIndex >= 0 ? (
@@ -341,30 +381,136 @@ function Player({ sources, subtitles }) {
                   )}
                 </div>
                 {/* Advanced setting */}
-                <div className='px-1'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    className='h-6 w-6'
-                    fill='none'
-                    viewBox='0 0 24 24'
-                    stroke='currentColor'
+                <div className='px-1 relative'>
+                  <span
+                    onClick={() => setShowAdvancedSetting(!showAdvancedSetting)}
                   >
-                    <path
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      strokeWidth={2}
-                      d='M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z'
-                    />
-                    <path
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      strokeWidth={2}
-                      d='M15 12a3 3 0 11-6 0 3 3 0 016 0z'
-                    />
-                  </svg>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      className='h-6 w-6'
+                      fill='none'
+                      viewBox='0 0 24 24'
+                      stroke='currentColor'
+                    >
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        strokeWidth={2}
+                        d='M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z'
+                      />
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        strokeWidth={2}
+                        d='M15 12a3 3 0 11-6 0 3 3 0 016 0z'
+                      />
+                    </svg>
+                  </span>
+                  {/* Dropdown */}
+                  <div
+                    className={`${
+                      showAdvancedSetting ? '' : 'hidden'
+                    } absolute bottom-full right-0 w-max p-4 bg-black bg-opacity-60 text-white max-w-sm border border-slate-300 rounded-md min-w-[9rem] h-max`}
+                  >
+                    <h1 className='text-md'>Quality</h1>
+                    <div className='flex flex-wrap'>
+                      {sources.map((item, index) => (
+                        <div key={item.quality}>
+                          <button
+                            className={`rounded-md text-sm py-[0.1rem] px-[0.125rem] mr-1 border border-slate-300 ${
+                              quality === index && 'bg-orange-500'
+                            }`}
+                            onClick={() => {
+                              setQuality(index);
+                              setPaused(true);
+                            }}
+                          >
+                            {item.quality}p
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                    <div>
+                      <h1 className='text-md mt-2'>Subtitles</h1>
+                      <span className='text-orange-500 flex justify-between items-center relative after:w-full after:h-full after:absolute after:top-0 after:-left-1/2 peer'>
+                        <svg
+                          xmlns='http://www.w3.org/2000/svg'
+                          className='h-5 w-5 text-white flex-shrink-0'
+                          viewBox='0 0 20 20'
+                          fill='currentColor'
+                        >
+                          <path
+                            fillRule='evenodd'
+                            d='M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z'
+                            clipRule='evenodd'
+                          />
+                        </svg>
+                        <span className='w-full text-center'>
+                          {subtitleIndex >= 0
+                            ? subtitles[subtitleIndex].language
+                            : 'Off'}
+                        </span>
+                      </span>
+                      <div className='absolute left-0 -translate-x-3/4 top-0 bg-black bg-opacity-60 p-4 border border-slate-300 rounded-md h-full overflow-auto invisible peer-hover:visible peer-hover:-translate-x-full hover:visible hover:-translate-x-full transition duration-300'>
+                        <span
+                          className={`block cursor-pointer hover:text-orange-500 ${
+                            subtitleIndex === -1 && 'text-orange-500'
+                          }`}
+                          onClick={() => setSubtitleIndex(-1)}
+                        >
+                          Off
+                        </span>
+                        {subtitles.map((item, index) => (
+                          <span
+                            key={index}
+                            className={`block cursor-pointer hover:text-orange-500 ${
+                              index === subtitleIndex ? 'text-orange-500' : ''
+                            }`}
+                            onClick={() => setSubtitleIndex(index)}
+                          >
+                            {item.language}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <h1 className='text-md mt-2'>Speed</h1>
+                      <span className='text-orange-500 flex justify-between relative items-center after:w-full after:h-full after:absolute after:top-0 after:-left-1/2 peer'>
+                        <svg
+                          xmlns='http://www.w3.org/2000/svg'
+                          className='h-5 w-5 text-white flex-shrink-0'
+                          viewBox='0 0 20 20'
+                          fill='currentColor'
+                        >
+                          <path
+                            fillRule='evenodd'
+                            d='M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z'
+                            clipRule='evenodd'
+                          />
+                        </svg>
+                        <span className='inline-block w-full text-center'>
+                          {speed}x
+                        </span>
+                      </span>
+                      <div className='absolute left-0 -translate-x-3/4 top-0 bg-black bg-opacity-60 p-4 border border-slate-300 rounded-md h-full overflow-auto invisible peer-hover:visible peer-hover:-translate-x-full hover:visible hover:-translate-x-full transition duration-300'>
+                        {[...new Array(8)].map((_, index) => (
+                          <span
+                            key={index}
+                            className={`block cursor-pointer hover:text-orange-500 ${
+                              speed === (index + 1) / 4 ? 'text-orange-500' : ''
+                            }`}
+                            onClick={() => setSpeed((index + 1) / 4)}
+                          >
+                            {(index + 1) / 4}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 {/* Toggle expand screen */}
-                <div className='px-1'
+                <div
+                  className='px-1'
                   onClick={() => setFullScreen(!fullScreen)}
                 >
                   {fullScreen ? (

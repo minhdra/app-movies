@@ -2,7 +2,7 @@ import './App.scss';
 import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
 
 import Header from './components/shared/Header';
-import Home from './components/home/Home';
+import Home from './view/Home';
 import MovieDetail from './view/Movie';
 import Footer from './components/shared/Footer';
 
