@@ -1,10 +1,18 @@
-import { search, searchWithKeyword } from "../../services/search";
+import { useEffect, useState } from "react";
+import { searchKeywords, searchWithKeyword } from "../../services/search";
 
 function Search() {
-  // search('spider', 10);
-  setTimeout(async () => {
-    searchWithKeyword('spider').then(res => console.log(res));
-  }, 2000)
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    searchKeywords('spider').then(res => setData(res));
+  }, [])
+  console.log(data)
+
+  // setTimeout(async () => {
+  //   searchWithKeyword('spider').then(res => console.log(res));
+  // }, 2000)
+  
   return (
     <>
       <div className='dark:bg-slate-700 bg-slate-100 dark:border-transparent border border-slate-300 relative flex items-center rounded-full px-3 py-2 justify-end flex-1 focus-within:border-orange-500'>
