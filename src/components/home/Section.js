@@ -29,12 +29,16 @@ function Section({ data }) {
               <Link
                 to={item.link}
               >
-                <h1
-                  className='absolute bottom-0 left-0 z-10 w-full whitespace-nowrap text-ellipsis bg-black text-white text-md font-medium bg-opacity-60 p-2 text-center rounded-br-xl rounded-bl-xl group-hover:text-orange-500 overflow-hidden'
-                  title={item.title}
+                <div 
+                  className='!absolute bottom-0 left-0 z-10 w-full'
+                  data-tooltip={item.title}
                 >
-                  {item.title}
-                </h1>
+                  <h1
+                    className=' whitespace-nowrap text-ellipsis bg-black text-white text-md font-medium bg-opacity-60 p-2 text-center rounded-br-xl rounded-bl-xl group-hover:text-orange-500 overflow-hidden'
+                  >
+                    {item.title}
+                  </h1>
+                </div>
                 <LazyLoadImage
                   className='w-full h-full object-cover rounded-xl transition group-hover:brightness-90'
                   src={item.image}

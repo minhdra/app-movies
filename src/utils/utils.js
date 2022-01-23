@@ -12,3 +12,8 @@ export function srt2wtt(url) {
   return `https://srt-to-vtt.vercel.app/?url=${encodeURIComponent(url)}`;
 }
 
+export function isMobile() {
+  const regex = /iPhone|iPad|iPop|Android/;
+  return regex.test(window.navigator.userAgent);
+}
+

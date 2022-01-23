@@ -1,21 +1,16 @@
 import Sidebar from '../components/shared/Sidebar';
 import SearchBoard from '../components/home/SearchBoard';
-import { getSearchBoard, getHome } from '../services/home';
-import { useEffect, useState } from 'react';
+import { getHome } from '../services/home';
 import Banner from '../components/home/Banner';
 import Section from '../components/home/Section';
+import useSWR from 'swr';
+import Error from '../components/shared/Error';
 
 function Home() {
-  const [home, setHome] = useState();
-  const [searchBoard, setSearchBoard] = useState([]);
 
-  useEffect(() => {
-    getHome().then((res) => setHome(res));
-  }, []);
+  const getKey = (index) => `home-${index || 0}`;
 
-  useEffect(() => {
-    getSearchBoard().then((res) => setSearchBoard(res));
-  }, []);
+  const { data, error } = useSWR('home-page-0', () => getHome(0));
 
   return (
     <div className='flex dark:bg-slate-900 min-h-screen'>
@@ -23,8 +18,8 @@ function Home() {
       <div className='pt-24 py-4 w-full flex overflow-hidden'>
         {/* Main content */}
         <div className='w-full overflow-hidden px-4 md:border-x border-slate-300 dark:border-slate-600'>
-          {home &&
-            home.map((section) =>
+          {data && !error  &&
+            data.map((section) =>
               section.homeSectionType === 'BANNER' ? (
                 <div className='mb-8' key={section.homeSectionId}>
                   <Banner
@@ -71,7 +66,7 @@ function Home() {
         </div>
       </div>
         {/* Top searches */}
-        <SearchBoard data={searchBoard} />
+        <SearchBoard />
     </div>
   );
 }

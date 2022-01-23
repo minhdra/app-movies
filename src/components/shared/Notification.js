@@ -18,18 +18,10 @@ const notifies = [
 ];
 
 function Notification({ onClick }) {
-
-  // useEffect(() => {
-  //   document.body.style.overflow = 'hidden';
-  //   return () => {
-  //     document.body.style.overflow = 'auto';
-  //   }
-  // }, []);
-
   return (
-    <div className='fixed notify-wrapper z-50 p-4 pt-20 w-full overflow-y-hidden'>
-      <div className='bg-white text-black border shadow-md p-4 rounded-md lg:w-[40%] md:w-[50%] w-full float-right dark:border-slate-300'>
-        <div className='flex justify-between items-center border-b border-slate-300 dark:border-slate-600 py-2'>
+    <div className='fixed notify-wrapper z-50 p-4 pt-20 w-full'>
+      <div className='bg-slate-50 dark:bg-slate-800 border shadow-md px-2 pb-4 rounded-md lg:w-[40%] md:w-[50%] w-full float-right dark:border-slate-300 overflow-auto max-h-[80vh]'>
+        <div className='flex py-4 justify-between items-center border-b border-slate-300 dark:border-slate-600'>
           <h1 className='font-medium text-xl'>Notifications</h1>
           <div className='hover:text-slate-600'
             onClick={() => onClick(false)}
@@ -55,7 +47,7 @@ function Notification({ onClick }) {
             {notifies.map((item) => (
               <li
                 key={item.id}
-                className='flex justify-start items-center py-2 cursor-default'
+                className={`flex justify-start items-center py-2 rounded-md px-4 cursor-pointer relative hover:brightness-75 ${item.active ? 'bg-orange-100 dark:bg-slate-700' : ''}`}
               >
                 <div className='min-w-max w-12 h-12 rounded-full overflow-hidden'>
                   <img
@@ -70,6 +62,9 @@ function Notification({ onClick }) {
                   </p>
                   <span className='text-orange-500'>{item.time_created}</span>
                 </div>
+                {item.active && (
+                  <span className='absolute top-2 right-2 rounded-full w-[5px] h-[5px] bg-orange-600'></span>
+                )}
               </li>
             ))}
           </ul>

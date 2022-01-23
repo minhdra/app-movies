@@ -1,5 +1,6 @@
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 import SwiperCore, { Navigation, Pagination, Autoplay } from 'swiper';
 
 // Import Swiper styles
@@ -28,7 +29,7 @@ function Banner({ data }) {
           },
         }}
         loop={true}
-        // autoplay={{ delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: true }}
+        autoplay={{ delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: true }}
         navigation
         pagination={{ clickable: true }}
       >
@@ -41,14 +42,13 @@ function Banner({ data }) {
               >
                 <h1
                   className='absolute lg:text-xl md:text-sm text-sm font-medium text-white bg-opacity-40 bottom-1/4 left-12 cursor-default bg-black py-1 px-2 rounded-md max-w-[30%] whitespace-nowrap text-ellipsis overflow-hidden'
-                  title={item.title}
                 >
                   {item.title}
                 </h1>
-                <img
+                <LazyLoadImage
                   className='w-full h-full md:max-h-[200px] max-h-[300px] object-cover rounded-2xl'
                   src={item.image}
-                  alt=''
+                  alt={item.title}
                 />
               </Link>
             </SwiperSlide>

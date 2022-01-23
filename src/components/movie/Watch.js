@@ -1,24 +1,35 @@
 import { Link } from 'react-router-dom';
 import Sidebar from '../shared/Sidebar';
-import Player from './Player';
+import PlayerDesktop from './PlayerDesktop';
+import Skeleton from '../shared/Skeleton';
+import { isMobile } from '../../utils/utils';
+import PlayerMobile from './PlayerMobie';
+import SimilarMovie from './SimilarMovie';
 
 function Watch({ data, sources, subtitles, episodeIndex }) {
-  console.log(data);
   return (
     <>
       <div className='flex md:flex-row dark:bg-slate-900 min-h-screen px-4'>
-        <Sidebar show={false} />
-        <div className='pt-24 p-4 w-full'>
-          <div className='flex'>
+        <div className='hidden lg:block'>
+          <Sidebar show={false} />
+        </div>
+        <div className='pt-24 p-4 pl-0 lg:pl-4 w-full'>
+          <div className='flex flex-wrap'>
             <div className='w-full'>
               <h1 className='text-xl font-bold pb-4'>
                 <span className=''>{data?.name}</span>
               </h1>
               <div className='w-full my-4'>
                 {data && sources && subtitles ? (
-                  <Player data={data} sources={sources} subtitles={subtitles} />
+                  (isMobile() ? (
+                    <PlayerMobile data={data} sources={sources} subtitles={subtitles} />
+                  ): (
+                    <PlayerDesktop data={data} sources={sources} subtitles={subtitles} />
+                  ))
                 ) : (
-                  <div>Error 😥😥😥</div>
+                  <div className="w-full h-0 pb-[56.25%] relative">
+                    <Skeleton className="absolute top-0 left-0 w-full h-full" />
+                  </div>
                 )}
               </div>
               <div>
@@ -50,11 +61,12 @@ function Watch({ data, sources, subtitles, episodeIndex }) {
                   <h3 className='text-2xl font-bold'>
                     Information of {data?.name}
                   </h3>
+                  {/*  */}
                   <div className='py-2'>
                     <span className='inline-flex items-center mr-4'>
                       <svg
                         xmlns='http://www.w3.org/2000/svg'
-                        className='h-5 w-5 text-yellow-400'
+                        className='h-5 w-5 !text-yellow-400'
                         viewBox='0 0 20 20'
                         fill='currentColor'
                       >
@@ -65,7 +77,7 @@ function Watch({ data, sources, subtitles, episodeIndex }) {
                     <span className='inline-flex items-center'>
                       <svg
                         xmlns='http://www.w3.org/2000/svg'
-                        className='h-6 w-6 text-red-600'
+                        className='h-6 w-6 !text-red-600'
                         fill='none'
                         viewBox='0 0 24 24'
                         stroke='currentColor'
@@ -80,7 +92,8 @@ function Watch({ data, sources, subtitles, episodeIndex }) {
                       {data?.year}
                     </span>
                   </div>
-                  <div className='py-2'>
+                  {/* Category */}
+                  <div className='py-2 flex flex-wrap'>
                     {data &&
                       data.tagList.map((item) => (
                         <Link
@@ -88,13 +101,13 @@ function Watch({ data, sources, subtitles, episodeIndex }) {
                           to={`/category/${item.name.toLowerCase()}?id=${
                             item.id
                           }`}
-                          className='rounded-full py-2 px-4 border-slate-500 border bg-slate-200 dark:bg-gray-700 mr-2 dark:hover:bg-gray-800'
+                          className='rounded-lg py-1 px-2 border-slate-500 border bg-slate-200 dark:bg-gray-700 mr-2 mb-2 dark:hover:bg-gray-800'
                         >
                           {item.name}
                         </Link>
                       ))}
                   </div>
-                  <div className='py-2 leading-5 text-justify text-md text-slate-200'>
+                  <div className='py-2 leading-5 text-justify text-md'>
                     {data?.introduction}
                   </div>
                 </div>
@@ -105,24 +118,8 @@ function Watch({ data, sources, subtitles, episodeIndex }) {
                 </div>
               </div>
             </div>
-            <div className='w-[250px] h-screen overflow-auto flex-shrink-0 pl-4 hidden md:block'>
-              <h1 className='text-xl font-bold pb-4'>Can you will like?</h1>
-              <div className='my-4'>
-                {data && data.likeList.map(item => (
-                  <div key={item.id}>
-                    <Link
-                      to={`/${item.category === 0 ? `movie/${item.id}` : `tv/${item.id}?episode=1`}`}
-                      className='inline-flex justify-start items-start overflow-hidden hover:brightness-75'
-                    >
-                      <img className='w-[70px] h-[100px] object-cover flex-shrink-0' src={item?.coverVerticalUrl} alt='' />
-                      <div className='px-2 leading-none w-full text-ellipsis break-words h-full flex flex-col justify-between'>
-                        <h5 className='pb-3 break-words text-ellipsis w-full'>{ item?.name }</h5>
-                        <span>{ item?.year }</span>
-                      </div>
-                    </Link>
-                  </div>
-                ))}
-              </div>
+            <div className=' md:w-[300px] md:h-screen overflow-auto flex-shrink-0 md:pl-4 md:block'>
+              <SimilarMovie data={data} />
             </div>
           </div>
         </div>

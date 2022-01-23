@@ -139,7 +139,7 @@ function Sidebar({ onClick, show }) {
                       item.id === navId
                         ? 'text-orange-500 dark:text-orange-500'
                         : 'dark:text-gray-300 text-gray-600 dark:hover:bg-gray-500 dark:hover:text-white',
-                      'px-3 py-2 rounded-md text-md font-medium transition duration-100 hover:bg-slate-200 dark:hover:bg-slate-800 hover:text-orange-500 flex items-center'
+                      'px-3 py-2 rounded-md text-md font-medium transition duration-100 hover:bg-slate-200 dark:hover:bg-slate-800 flex items-center'
                     )}
                   >
                     <span
@@ -187,7 +187,7 @@ function Sidebar({ onClick, show }) {
                     navId === item.id
                       ? 'bg-slate-200 text-slate-900 dark:bg-slate-600'
                       : '',
-                    'w-16 h-16 text-xs rounded-xl flex flex-col items-center justify-center hover:bg-slate-100 hover:text-orange-500 dark:hover:bg-slate-500 transition duration-100'
+                    'w-16 h-16 text-xs rounded-xl flex flex-col items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-500 transition duration-100'
                   )}
                 >
                   <span dangerouslySetInnerHTML={{ __html: item.icon }}></span>

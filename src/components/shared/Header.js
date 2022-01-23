@@ -70,8 +70,8 @@ function Header() {
   return (
     <>
       <header
-        className='w-full fixed z-10 bg-white text-gray-800
-    dark:border-slate-600 border-b border-slate-300 shadow-md dark:bg-slate-900'
+        className='w-full fixed z-10 text-gray-800
+    dark:border-slate-600 border-b bg-slate-50 border-slate-300 shadow-md dark:bg-slate-900'
       >
         {/* Desktop and ipad */}
         <nav className='w-full mx-auto md:flex hidden flex-wrap items-center justify-between py-4 px-4'>
@@ -106,7 +106,7 @@ function Header() {
             <input
               type='text'
               className='border border-transparent focus:border-transparent
-                      focus:outline-none bg-transparent placeholder:italic h-full w-full'
+                      focus:outline-none bg-transparent placeholder:italic h-full w-full dark:text-white'
               placeholder='Search name of movies...'
             />
             <span className='cursor-pointer inline-block text-gray-800'>
@@ -232,7 +232,7 @@ function Header() {
                           'first-letter:z-10 text-base list-none absolute inset-y-full -inset-x-full w-36'
                         )}
                       >
-                        <ul className='py-1 bg-white border rounded shadow dark:bg-gray-700'>
+                        <ul className='py-1 border rounded shadow bg-slate-100 dark:bg-gray-800'>
                           <li>
                             <Link
                               to='/'
