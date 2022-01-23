@@ -8,5 +8,4 @@ export default axios.create({
     versioncode: '11',
     clienttype: 'ios_jike_default',
   },
-  
 });

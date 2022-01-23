@@ -8,14 +8,14 @@ import MovieDetail from './view/Movie';
 import Footer from './components/shared/Footer';
 import TvDetail from './view/Tv';
 
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 
 function App() {
-  const location = useLocation();
+  // const location = useLocation();
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location.pathname, location.search]);
+  // useEffect(() => {
+  //   window.scrollTo(0, 0);
+  // }, [location.pathname, location.search]);
 
   return (
     <div className='app'>

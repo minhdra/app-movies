@@ -4,13 +4,10 @@ import { getHome } from '../services/home';
 import Banner from '../components/home/Banner';
 import Section from '../components/home/Section';
 import useSWR from 'swr';
-import Error from '../components/shared/Error';
 
 function Home() {
 
-  const getKey = (index) => `home-${index || 0}`;
-
-  const { data, error } = useSWR('home-page-0', () => getHome(0));
+  const { data, error } = useSWR('home-page', () => getHome());
 
   return (
     <div className='flex dark:bg-slate-900 min-h-screen'>

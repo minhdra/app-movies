@@ -2,7 +2,6 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Link } from 'react-router-dom';
 import useSWR from 'swr';
 import { getSearchBoard } from '../../services/home';
-import Error from '../shared/Error';
 
 function SearchBoard() {  
   const { data, error } = useSWR('home-search-board', () => getSearchBoard());

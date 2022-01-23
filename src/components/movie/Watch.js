@@ -3,7 +3,7 @@ import Sidebar from '../shared/Sidebar';
 import PlayerDesktop from './PlayerDesktop';
 import Skeleton from '../shared/Skeleton';
 import { isMobile } from '../../utils/utils';
-import PlayerMobile from './PlayerMobie';
+import PlayerMobile from './PlayerMobile';
 import SimilarMovie from './SimilarMovie';
 
 function Watch({ data, sources, subtitles, episodeIndex }) {
@@ -13,10 +13,10 @@ function Watch({ data, sources, subtitles, episodeIndex }) {
         <div className='hidden lg:block'>
           <Sidebar show={false} />
         </div>
-        <div className='pt-24 p-4 pl-0 lg:pl-4 w-full'>
-          <div className='flex flex-wrap'>
-            <div className='w-full'>
-              <h1 className='text-xl font-bold pb-4'>
+        <div className='pt-24 md:pr-4 lg:px-4 w-full'>
+          <div className='md:flex'>
+            <div className='w-full md:pr-4 md:border-r md:border-slate-700'>
+              <h1 className='text-xl font-bold'>
                 <span className=''>{data?.name}</span>
               </h1>
               <div className='w-full my-4'>
@@ -61,7 +61,6 @@ function Watch({ data, sources, subtitles, episodeIndex }) {
                   <h3 className='text-2xl font-bold'>
                     Information of {data?.name}
                   </h3>
-                  {/*  */}
                   <div className='py-2'>
                     <span className='inline-flex items-center mr-4'>
                       <svg
@@ -92,7 +91,6 @@ function Watch({ data, sources, subtitles, episodeIndex }) {
                       {data?.year}
                     </span>
                   </div>
-                  {/* Category */}
                   <div className='py-2 flex flex-wrap'>
                     {data &&
                       data.tagList.map((item) => (
@@ -118,7 +116,7 @@ function Watch({ data, sources, subtitles, episodeIndex }) {
                 </div>
               </div>
             </div>
-            <div className=' md:w-[300px] md:h-screen overflow-auto flex-shrink-0 md:pl-4 md:block'>
+            <div className='md:w-max-fit md:w-[300px] md:h-screen overflow-auto flex-shrink-0 md:pl-4 md:block'>
               <SimilarMovie data={data} />
             </div>
           </div>
