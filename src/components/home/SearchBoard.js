@@ -9,7 +9,7 @@ function SearchBoard() {
   return (
     <div className='hidden md:block md:w-[40%] xl:w-[30%] pt-24 pl-4 h-screen overflow-hidden overflow-y-auto sticky top-0'>
       {/* Head */}
-      <div className='flex items-end pb-4 z-30 shadow dark:bg-slate-900'>
+      <div className='flex items-end pb-4 z-30 dark:bg-slate-900'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           className='h-6 w-6 !text-red-600 animate-bounce'
@@ -43,7 +43,7 @@ function SearchBoard() {
                     ? `/tv/${item.id}?episode=1`
                     : `/movie/${item.id}`
                 }`}
-                className='flex justify-start items-start py-1 hover:text-orange-600 hover:bg-slate-200 hover:brightness-75 dark:hover:text-white dark:hover:bg-transparent'
+                className='flex justify-start items-start py-1 hover:brightness-75'
                 data-tooltip={item.title}
               >
                 <div className='w-[100px] h-[60px] overflow-hidden transition flex-shrink-0'>
@@ -53,7 +53,7 @@ function SearchBoard() {
                     alt=''
                   />
                 </div>
-                <div data-tooltip={item.title}>
+                <div>
                   <h2 className='text-md pl-4 h-[60px] pr-2 transition text-ellipsis overflow-hidden'>
                     {item.title}
                   </h2>

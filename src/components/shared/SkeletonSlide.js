@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import Skeleton from "./Skeleton";
 
-const Slider = () => {
+const SkeletonSlider = () => {
   return (
     <Swiper
       modules={[Navigation]}
@@ -21,4 +21,4 @@ const Slider = () => {
   );
 };
 
-export default Slider;
+export default SkeletonSlider;

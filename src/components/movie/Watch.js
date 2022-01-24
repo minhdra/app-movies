@@ -13,7 +13,7 @@ function Watch({ data, sources, subtitles, episodeIndex }) {
         <div className='hidden lg:block'>
           <Sidebar show={false} />
         </div>
-        <div className='pt-24 md:pr-4 lg:px-4 w-full'>
+        <div className='pt-24 lg:px-4 w-full'>
           <div className='md:flex'>
             <div className='w-full md:pr-4 md:border-r md:border-slate-700'>
               <h1 className='text-xl font-bold'>

@@ -1,6 +1,7 @@
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Link } from 'react-router-dom';
 import Sidebar from '../shared/Sidebar';
+import Skeleton from '../shared/Skeleton';
+import LoadImage from '../shared/LoadImage';
 
 function Result({ data }) {
   return (
@@ -9,7 +10,7 @@ function Result({ data }) {
         <div className='hidden lg:block'>
           <Sidebar show={false} />
         </div>
-        {data && data.length > 0 && (
+        {data ? (
           <div className='pt-24 pb-5 px-4 overflow-hidden'>
             <h1 className='leading-none text-xl font-medium pb-4'>
               Founded: {data.length} results
@@ -25,7 +26,7 @@ function Result({ data }) {
                       item.domainType
                         ? `/tv/${item.id}?episode=1`
                         : `/movie/${item.id}`
-                      }`}
+                    }`}
                     className='block'
                   >
                     <div
@@ -36,11 +37,25 @@ function Result({ data }) {
                         {item?.name}
                       </h1>
                     </div>
-                    <LazyLoadImage
+                    <LoadImage
                       className='w-full h-full object-cover rounded-lg transition group-hover:brightness-90'
                       src={item?.coverHorizontalUrl}
                     />
                   </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className='pt-24 pb-5 px-4 overflow-hidden'>
+            <Skeleton className='w-[60%] h-7 mb-4' />
+            <div className='flex-wrap flex w-full'>
+              {[...new Array(50)].map((_, index) => (
+                <div
+                  key={index}
+                  className='relative group w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 mb-4 px-2'
+                >
+                  <Skeleton className='w-full h-[200px] rounded-lg' />
                 </div>
               ))}
             </div>
