@@ -1,18 +1,22 @@
 import { useLocation, useParams } from 'react-router-dom';
-import useSWR from 'swr';
 import Watch from '../components/movie/Watch';
 import Error from '../components/shared/Error';
 import { getTvDetail } from '../services/tv';
+import { useEffect, useState } from 'react';
 
 function TvDetail() {
   const { id } = useParams();
   const queryParams = new URLSearchParams(useLocation().search);
 
+  const [data, setData] = useState();
+  const [error, setError] = useState();
+
   const episodeIndex = queryParams.get('episode');
 
-  const { data, error } = useSWR(`tv-${id}-${episodeIndex}`, () =>
-    getTvDetail(id, episodeIndex - 1)
-  );
+  useEffect(() => {
+    setData(null);
+    getTvDetail(id, episodeIndex - 1).then(res => setData(res)).catch(error => setError(error));
+  }, [id, episodeIndex]);
 
   if (error) return <Error/>;
 
