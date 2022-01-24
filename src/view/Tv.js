@@ -11,7 +11,7 @@ function TvDetail() {
   const episodeIndex = queryParams.get('episode');
 
   const { data, error } = useSWR(`tv-${id}-${episodeIndex}`, () =>
-    getTvDetail(id, episodeIndex)
+    getTvDetail(id, episodeIndex - 1)
   );
 
   if (error) return <Error/>;

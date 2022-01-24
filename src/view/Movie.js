@@ -8,16 +8,18 @@ import { useEffect, useState } from 'react';
 function MovieDetail() {
   const { id } = useParams();
   const [data, setData] = useState();
+  const [error, setError] = useState();
 
   // const { data, error } = useSWR(`movie-${id}`, () => getMovieDetail(id));
 
   useEffect(() => {
     setData(null);
-    getMovieDetail(id).then(res => setData(res));
+    getMovieDetail(id).then(res => setData(res)).catch(error => setError(error));
   }, [id]);
   
+  console.log(error, data)
 
-  // if (error) return <Error/> ;
+  if (error) return <Error/> ;
 
   return (
     <Watch

@@ -17,3 +17,12 @@ export function isMobile() {
   return regex.test(window.navigator.userAgent);
 }
 
+export const formatResultSearch = (list) => {
+  return list.map((item) => item.replace(/\(|<em>|<\/em>|\)|#/g, '').trim());
+};
+
+export const getQueryParams = () => {
+  const queryParams = new URLSearchParams(new URL(window.location.href).search);
+  return queryParams;
+}
+

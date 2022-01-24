@@ -133,7 +133,7 @@ function Sidebar({ onClick, show }) {
                 {navigation.map((item) => (
                   <Link
                     key={item.name}
-                    onClick={() => setNavId(item.id)}
+                    onClick={() => { setNavId(item.id); onClick(false); }}
                     to={item.href}
                     className={classNames(
                       item.id === navId
@@ -176,7 +176,7 @@ function Sidebar({ onClick, show }) {
         </div>
       )}
 
-      <aside className='sticky pt-20 top-0 w-fit md:block hidden min-w-max h-screen bg-white dark:bg-slate-900'>
+      <aside className='sticky pt-20 top-0 w-fit md:block hidden min-w-max min-h-screen bg-white dark:bg-slate-900'>
         <div className='p-4'>
           <ul className='list-none flex flex-col items-center'>
             {navigation.map((item) => (

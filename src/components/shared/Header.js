@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Notification from './Notification';
-import Search from './Search';
+import SearchTop from '../search/SearchTop';
 import Sidebar from './Sidebar';
 
 function classNames(...classes) {
@@ -17,8 +17,7 @@ function Header() {
   const [showOptions, setShowOptions] = useState(false);
   const [isChecked, setIsChecked] = useState(() => {
     let theme = localStorage.getItem('theme');
-    if (!theme)
-    {
+    if (!theme) {
       theme = 'light';
       localStorage.setItem('theme', theme);
     }
@@ -71,11 +70,11 @@ function Header() {
   return (
     <>
       <header
-        className='w-full fixed z-10 text-gray-800
+        className='w-full fixed z-50 text-gray-800
     dark:border-slate-600 border-b bg-slate-50 border-slate-300 shadow-md dark:bg-slate-900'
       >
         {/* Desktop and ipad */}
-        <nav className='w-full mx-auto md:flex hidden flex-wrap items-center justify-between py-4 px-4'>
+        <nav className='w-full mx-auto md:flex hidden flex-wrap items-center justify-between p-4'>
           {/* Brand */}
           <div className='flex-shrink-0 flex items-center flex-1'>
             <div className='flex items-center'>
@@ -103,7 +102,7 @@ function Header() {
             </div>
           </div>
           {/* Search */}
-          <Search/>
+          <SearchTop />
           {/* right nav */}
           <div className='flex flex-1 justify-end items-center'>
             {/* Button toggle dark mode */}
@@ -252,9 +251,9 @@ function Header() {
           </div>
         </nav>
         {/* Mobile */}
-        <nav className='w-full mx-auto md:hidden flex flex-wrap items-center justify-between py-4 px-4'>
+        <nav className='w-full mx-auto md:hidden flex flex-wrap items-center justify-between p-4'>
           {/* Button toggle sidebar */}
-          <div className='flex-shrink-0 flex items-center flex-1'>
+          <div className='flex items-center'>
             <button
               className='md:hidden inline-flex dark:bg-gray-900 items-center justify-center p-2 rounded-md dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white'
               onClick={() => handleToggleSidebar(!showSidebar)}
@@ -298,14 +297,20 @@ function Header() {
             </button>
           </div>
           {/* Right navigation */}
-          <div className='flex md:pr-4 flex-1 justify-end items-center'>
+          <div className='flex md:pr-4 justify-end items-center'>
             {/* Button toggle dark mode */}
             <div className='flex items-center'>
-              <input type='checkbox' className='opacity-0 absolute' id='toggle-dark'
+              <input
+                type='checkbox'
+                className='opacity-0 absolute'
+                id='toggle-dark'
                 checked={isChecked}
                 onChange={handleToggleDarkMode}
               />
-              <label htmlFor='toggle-dark' className='w-16 bg-slate-800 border border-slate-600 flex rounded-full p-1 justify-between items-center relative'>
+              <label
+                htmlFor='toggle-dark'
+                className='w-16 bg-slate-800 border border-slate-600 flex rounded-full p-1 justify-between items-center relative'
+              >
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   className='h-6 w-6 text-white'
@@ -338,22 +343,7 @@ function Header() {
               </label>
             </div>
             {/* Button toggle form search */}
-            <div className='rounded-full relative p-1 ml-3 cursor-pointer hover:bg-slate-300 dark:hover:bg-slate-700'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                className='h-6 w-6'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='2'
-                  d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
-                />
-              </svg>
-            </div>
+            <SearchTop/>
             {/* Notification */}
             {isLogin ? (
               <div
@@ -387,10 +377,10 @@ function Header() {
           </div>
         </nav>
       </header>
-      {showSidebar && (<Sidebar show={showSidebar} onClick={handleToggleSidebar} />)}
-      {showNotify && (
-        <Notification onClick={handleToggleNotify} />
+      {showSidebar && (
+        <Sidebar show={showSidebar} onClick={handleToggleSidebar} />
       )}
+      {showNotify && <Notification onClick={handleToggleNotify} />}
     </>
   );
 }
