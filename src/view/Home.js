@@ -45,7 +45,7 @@ function Home() {
               else return (
                 <div className='mb-8' key={section.homeSectionId}>
                   <h1 className='text-xl font-medium py-2'>
-                    {section.homeSectionName}
+                    {section.homeSectionName?.replace('Loklok', 'Dra')}
                   </h1>
                   <Section
                     data={section?.recommendContentVOList.map((item) => {

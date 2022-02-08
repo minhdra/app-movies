@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { searchKeywords } from '../../services/search';
 import { formatResultSearch } from '../../utils/utils';
@@ -8,6 +8,10 @@ function SearchTop() {
   const [data, setData] = useState([]);
   const [keyword, setKeyword] = useState('');
   const [toggleSearch, setToggleSearch] = useState(false);
+  const searchRef = useRef();
+  const buttonSearchRef = useRef();
+  const searchRef2 = useRef();
+  const buttonSearchRef2 = useRef();
 
   useEffect(() => {
     searchKeywords(keyword).then((res) => setData(formatResultSearch(res)));
@@ -23,6 +27,27 @@ function SearchTop() {
     return () => window.removeEventListener('resize', handleResize);
   });
 
+  useEffect(() => {
+    if (searchRef.current) {
+      const handleEnter = (e) => {
+        if (e.keyCode === 13) {
+          buttonSearchRef.current?.click();
+        }
+      };
+      searchRef.current.addEventListener('keydown', handleEnter);
+    }
+
+    const handleResize = (e) => {
+      if (e.target.innerWidth > 768) setToggleSearch(false);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [toggleSearch]);
+
   function toggle() {
     setKeyword('');
     // setToggleSearch(false);
@@ -30,54 +55,62 @@ function SearchTop() {
 
   return (
     <>
-      <div className='flex relative items-center justify-end z-50'>
-        <div className='hidden md:flex dark:bg-slate-700 bg-slate-100 dark:border-transparent border border-slate-300 focus-within:border-orange-500 rounded-full px-3 py-2'>
-          <input
-            type='text'
-            className='border border-transparent focus:border-transparent
-                        focus:outline-none bg-transparent placeholder:italic h-full w-full dark:text-white'
-            placeholder='Search name of movies...'
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-          />
-          <span className='cursor-pointer inline-block text-gray-800'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              className='h-6 w-6'
-              fill='none'
-              viewBox='0 0 24 24'
-              stroke='currentColor'
+      {!toggleSearch && (
+        <div className='flex relative items-center justify-end z-50'>
+          <div className='hidden md:flex dark:bg-slate-700 bg-slate-100 dark:border-transparent border border-slate-300 focus-within:border-orange-500 rounded-full px-3 py-2'>
+            <input
+              ref={searchRef}
+              type='text'
+              className='border border-transparent focus:border-transparent
+                          focus:outline-none bg-transparent placeholder:italic h-full w-full dark:text-white'
+              placeholder='Search name of movies...'
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              onClick={(e) => e.target.select()}
+            />
+            <Link
+              ref={buttonSearchRef}
+              className='cursor-pointer inline-block text-gray-800'
+              to={keyword.trim() === '' ? '#' : `/search?keyword=${keyword}`}
             >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth='2'
-                d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
-              />
-            </svg>
-          </span>
-        </div>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                className='h-6 w-6'
+                fill='none'
+                viewBox='0 0 24 24'
+                stroke='currentColor'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth='2'
+                  d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
+                />
+              </svg>
+            </Link>
+          </div>
 
-        {data?.length > 0 && !toggleSearch && (
-          <>
-            <div className='absolute left-0 top-full max-h-40 w-full overflow-auto dark:bg-slate-900 bg-slate-100 border-slate-300 text-slate-800 dark:text-slate-200 py-4 border dark:border-slate-700 rounded-lg z-50'>
-              {data.map((item, index) => (
-                <div className='overflow-hidden' key={index}>
-                  <Link
-                    to={`/search?keyword=${item}`}
-                    className='inline-block hover:text-orange-500 dark:hover:bg-slate-700 hover:bg-slate-200 w-full whitespace-nowrap px-4 text-ellipsis'
-                    onClick={() => setKeyword('')}
-                    title={item}
-                  >
-                    {item}
-                  </Link>
-                </div>
-              ))}
-            </div>
-            <Overlay onClick={toggle} />
-          </>
-        )}
-      </div>
+          {data?.length > 0 && !toggleSearch && (
+            <>
+              <div className='absolute left-0 top-full max-h-40 w-full overflow-auto dark:bg-slate-900 bg-slate-100 border-slate-300 text-slate-800 dark:text-slate-200 py-4 border dark:border-slate-700 rounded-lg z-50'>
+                {data.map((item, index) => (
+                  <div className='overflow-hidden' key={index}>
+                    <Link
+                      to={`/search?keyword=${item}`}
+                      className='inline-block hover:text-orange-500 dark:hover:bg-slate-700 hover:bg-slate-200 w-full whitespace-nowrap px-4 text-ellipsis'
+                      onClick={() => setKeyword('')}
+                      title={item}
+                    >
+                      {item}
+                    </Link>
+                  </div>
+                ))}
+              </div>
+              <Overlay onClick={toggle} />
+            </>
+          )}
+        </div>
+      )}
 
       <div
         className='rounded-full relative p-1 ml-3 cursor-pointer hover:bg-slate-300 dark:hover:bg-slate-700 md:hidden'
@@ -133,16 +166,23 @@ function SearchTop() {
                 </Link>
               </div>
             </h1>
-            <div className='dark:bg-slate-700 bg-slate-100 dark:border-transparent border border-slate-300 relative flex items-center rounded-full px-3 py-2 justify-end focus-within:border-orange-500 '>
+            <div className='dark:bg-slate-700 bg-slate-100 dark:border-transparent border border-slate-300 relative flex items-center rounded-full px-3 py-2 justify-end focus-within:border-orange-500'>
               <input
+                ref={searchRef}
                 type='text'
                 className='border border-transparent focus:border-transparent
                             focus:outline-none bg-transparent placeholder:italic h-full w-full dark:text-white'
                 placeholder='Search name of movies...'
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
+                onClick={(e) => e.target.select()}
               />
-              <span className='cursor-pointer inline-block text-gray-800'>
+              <Link
+                ref={buttonSearchRef}
+                className='cursor-pointer inline-block text-gray-800'
+                to={keyword.trim() === '' ? '#' : `/search?keyword=${keyword}`}
+                onClick={() => setToggleSearch(false)}
+              >
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   className='h-6 w-6'
@@ -157,7 +197,7 @@ function SearchTop() {
                     d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
                   />
                 </svg>
-              </span>
+              </Link>
 
               {data?.length > 0 && toggleSearch && (
                 <>
@@ -167,7 +207,10 @@ function SearchTop() {
                         <Link
                           to={`/search?keyword=${item}`}
                           className='inline-block hover:text-orange-500 dark:hover:bg-slate-700 hover:bg-slate-200 w-full whitespace-nowrap px-4 text-ellipsis'
-                          onClick={() => { setKeyword(''); setToggleSearch(false); }}
+                          onClick={() => {
+                            setKeyword('');
+                            setToggleSearch(false);
+                          }}
                           title={item}
                         >
                           {item}

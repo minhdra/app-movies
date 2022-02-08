@@ -47,15 +47,15 @@ function Result({ data }) {
             </div>
           </div>
         ) : (
-          <div className='pt-24 pb-5 px-4 overflow-hidden'>
+          <div className='pt-24 pb-5 px-4 overflow-hidden w-full'>
             <Skeleton className='w-[60%] h-7 mb-4' />
             <div className='flex-wrap flex w-full'>
               {[...new Array(50)].map((_, index) => (
                 <div
                   key={index}
-                  className='relative group w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 mb-4 px-2'
+                  className='px-1 w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5'
                 >
-                  <Skeleton className='w-full h-[200px] rounded-lg' />
+                  <Skeleton className=' mb-4 px-2 rounded-lg h-[200px]'></Skeleton>
                 </div>
               ))}
             </div>

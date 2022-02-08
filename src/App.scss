@@ -1,5 +1,4 @@
 
-
 body {
     &.dark {
         @apply text-slate-200 bg-slate-900;
@@ -32,6 +31,15 @@ body {
 }
 .hide {
     animation: hide ease-in-out .3s;
+}
+
+.swiper-button-prev:after, .swiper-button-next:after {
+    @apply text-orange-600;
+    font-size: 32px !important;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: rgb(234 88 12) !important;
 }
 
 @keyframes show {
