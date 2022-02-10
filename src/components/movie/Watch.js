@@ -16,8 +16,8 @@ function Watch({ data, sources, subtitles, episodeIndex }) {
         <div className='pt-24 lg:px-4 w-full'>
           <div className='md:flex'>
             <div className='w-full md:pr-4 md:border-r md:border-slate-700'>
-              <h1 className='text-xl font-bold'>
-                <span className=''>{data?.name}</span>
+              <h1 className='text-2xl font-bold'>
+                <span className=''>Name: {data?.name}</span>
               </h1>
               <div className='w-full my-4'>
                 {data && sources && subtitles ? (
@@ -34,31 +34,33 @@ function Watch({ data, sources, subtitles, episodeIndex }) {
               </div>
               <div>
                 {/* Episodes */}
-                <div>
-                  <h2 className='text-lg font-medium py-1'>
-                    You watching episode {episodeIndex}
-                  </h2>
-                  <div className='max-h-[90px] overflow-auto'>
-                    {data &&
-                      data.episodeVo.map((_, index) => (
-                        <Link
-                          key={index}
-                          to={`/tv/${data.id}?episode=${index + 1}`}
-                          className={`w-[35px] h-[35px] leading-none inline-flex items-center justify-center rounded-lg mr-1 my-1 border border-slate-300 hover:bg-orange-500 hover:text-white transition duration-75 ${
-                            index + 1 === episodeIndex
-                              ? 'bg-orange-500 text-white'
-                              : ''
-                          }`}
-                          type='button'
-                        >
-                          {index + 1}
-                        </Link>
-                      ))}
+                {episodeIndex && (
+                  <div>
+                    <h2 className='text-lg font-medium py-1'>
+                      You watching episode {episodeIndex}
+                    </h2>
+                    <div className='max-h-[90px] overflow-auto'>
+                      {data &&
+                        data.episodeVo.map((_, index) => (
+                          <Link
+                            key={index}
+                            to={`/tv/${data.id}?episode=${index + 1}`}
+                            className={`w-[35px] h-[35px] leading-none inline-flex items-center justify-center rounded-lg mr-1 my-1 border border-slate-300 hover:bg-orange-500 hover:text-white transition duration-75 ${
+                              index + 1 === episodeIndex
+                                ? 'bg-orange-500 text-white'
+                                : ''
+                            }`}
+                            type='button'
+                          >
+                            {index + 1}
+                          </Link>
+                        ))}
+                    </div>
                   </div>
-                </div>
+                )}
                 {/* Information */}
                 <div className='py-4'>
-                  <h3 className='text-2xl font-bold'>
+                  <h3 className='text-xl font-bold'>
                     Information of {data?.name}
                   </h3>
                   <div className='py-2'>

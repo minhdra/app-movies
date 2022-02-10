@@ -10,9 +10,9 @@ function Home() {
 
   return (
     <div className='flex dark:bg-slate-900 min-h-screen'>
-      <div className='hidden md:block'>
+      {/* <div className='hidden md:block'>
         <Sidebar show={false} />
-      </div>
+      </div> */}
       <div className='pt-24 py-4 w-full flex overflow-hidden'>
         {/* Main content */}
         <div className='w-full overflow-hidden px-4 md:border-x border-slate-300 dark:border-slate-600'>

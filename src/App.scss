@@ -26,13 +26,6 @@ body {
     @apply translate-x-full;
 }
 
-.show {
-    animation: show ease-in-out .3s;
-}
-.hide {
-    animation: hide ease-in-out .3s;
-}
-
 .swiper-button-prev:after, .swiper-button-next:after {
     @apply text-orange-600;
     font-size: 32px !important;
@@ -40,24 +33,6 @@ body {
 
 .swiper-pagination-bullet-active {
     background-color: rgb(234 88 12) !important;
-}
-
-@keyframes show {
-    from {
-        left: -100%;
-    }
-    to {
-        left: 0;
-    }
-}
-
-@keyframes hide {
-    from {
-        left: 0;
-    }
-    to {
-        left: -100%;
-    }
 }
 
 [data-tooltip] {

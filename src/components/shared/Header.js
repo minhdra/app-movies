@@ -377,9 +377,8 @@ function Header() {
           </div>
         </nav>
       </header>
-      {showSidebar && (
+      
         <Sidebar show={showSidebar} onClick={handleToggleSidebar} />
-      )}
       {showNotify && <Notification onClick={handleToggleNotify} />}
     </>
   );

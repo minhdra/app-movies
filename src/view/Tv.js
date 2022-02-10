@@ -18,8 +18,8 @@ function TvDetail() {
     getTvDetail(id, episodeIndex - 1).then(res => setData(res)).catch(error => setError(error));
   }, [id, episodeIndex]);
 
-  if (error) return <Error/>;
-
+  if (error) return <Error />;
+  
   return (
     <Watch
       data={data?.data}

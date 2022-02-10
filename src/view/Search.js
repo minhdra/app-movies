@@ -15,7 +15,7 @@ function Search() {
 
   if (error) return <Error/>
 
-  return <Result data={data} />;
+  return <Result data={data} keyword={keyword} />;
 }
 
 export default Search;
