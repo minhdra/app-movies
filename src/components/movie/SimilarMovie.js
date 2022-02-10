@@ -16,7 +16,7 @@ function SimilarMovie({ data }) {
               <h1 className='text-xl font-bold'>Other seasons</h1>
               {data && (
                 <>
-                  <div className='my-4 hidden md:block overflow-auto w-full'>
+                  <div className='my-4 hidden md:block overflow-y-auto overflow-x-hidden w-full'>
                     {data.refList.map((item) => {
                       return (
                         item.id !== data.id && (
@@ -70,7 +70,7 @@ function SimilarMovie({ data }) {
                                   }`}
                                 >
                                   <div
-                                    className='!absolute bottom-0 left-0 z-10 w-full'
+                                    className='!absolute bottom-0 left-0  w-full'
                                     data-tooltip={item.name}
                                   >
                                     <h1 className=' whitespace-nowrap text-ellipsis bg-black text-white text-md font-medium bg-opacity-60 p-2 text-center rounded-br-xl rounded-bl-xl group-hover:text-orange-500 overflow-hidden'>
@@ -93,11 +93,11 @@ function SimilarMovie({ data }) {
             </div>
           )}
           {data?.likeList && data?.likeList.length > 0 && (
-            <div>
+            <>
               <h1 className='text-xl font-bold'>Can you will like?</h1>
               {data && (
                 <>
-                  <div className='my-4 hidden md:block overflow-auto w-full'>
+                  <div className='my-4 hidden md:block overflow-y-auto overflow-x-hidden w-full'>
                     {data.likeList.map((item) => (
                       <div key={item.id}>
                         <Link
@@ -145,7 +145,7 @@ function SimilarMovie({ data }) {
                               }`}
                             >
                               <div
-                                className='!absolute bottom-0 left-0 z-10 w-full'
+                                className='!absolute bottom-0 left-0  w-full'
                                 data-tooltip={item.name}
                               >
                                 <h1 className=' whitespace-nowrap text-ellipsis bg-black text-white text-md font-medium bg-opacity-60 p-2 text-center rounded-br-xl rounded-bl-xl group-hover:text-orange-500 overflow-hidden'>
@@ -163,7 +163,7 @@ function SimilarMovie({ data }) {
                   </div>
                 </>
               )}
-            </div>
+            </>
           )}
         </>
       ) : (
@@ -186,7 +186,7 @@ function SimilarMovie({ data }) {
                 ))}
               </div>
               <div className='md:hidden my-4'>
-                <SkeletonSlider/>
+                <SkeletonSlider />
               </div>
             </div>
           ))}

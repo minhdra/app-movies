@@ -1,36 +1,155 @@
 import { Link } from 'react-router-dom';
-import Sidebar from '../shared/Sidebar';
 import PlayerDesktop from './PlayerDesktop';
 import Skeleton from '../shared/Skeleton';
 import { isMobile } from '../../utils/utils';
 import PlayerMobile from './PlayerMobile';
 import SimilarMovie from './SimilarMovie';
+import { useEffect, useState } from 'react';
+import Overlay from '../shared/Overlay';
 
 function Watch({ data, sources, subtitles, episodeIndex }) {
+  const [light, setLight] = useState(true);
+
   return (
     <>
+      {!light && <Overlay opacity={100} zIndex={40} />}
       <div className='flex md:flex-row dark:bg-slate-900 min-h-screen px-4'>
-        <div className='hidden lg:block'>
-          <Sidebar show={false} />
-        </div>
         <div className='pt-24 lg:px-4 w-full'>
           <div className='md:flex'>
             <div className='w-full md:pr-4 md:border-r md:border-slate-700'>
               <h1 className='text-2xl font-bold'>
                 <span className=''>Name: {data?.name}</span>
               </h1>
-              <div className='w-full my-4'>
+              <div className={`w-full my-4`}>
                 {data && sources && subtitles ? (
-                  (isMobile() ? (
-                    <PlayerMobile data={data} sources={sources} subtitles={subtitles} />
-                  ): (
-                    <PlayerDesktop data={data} sources={sources} subtitles={subtitles} />
-                  ))
+                  isMobile() ? (
+                    <PlayerMobile
+                      data={data}
+                      sources={sources}
+                      subtitles={subtitles}
+                      light={light}
+                    />
+                  ) : (
+                    <PlayerDesktop
+                      data={data}
+                      sources={sources}
+                        subtitles={subtitles}
+                        light={light}
+                    />
+                  )
                 ) : (
-                  <div className="w-full h-0 pb-[56.25%] relative">
-                    <Skeleton className="absolute top-0 left-0 w-full h-full" />
+                  <div className='w-full h-0 pb-[56.25%] relative'>
+                    <Skeleton className='absolute top-0 left-0 w-full h-full' />
                   </div>
                 )}
+              </div>
+              {/* Button suggestion */}
+              <div className='flex flex-wrap items-center justify-center'>
+                <button
+                  className={`rounded-md border border-slate-600 px-3 mr-2 mb-2 hover:bg-orange-600 hover:border-orange-600 flex items-center ${
+                    !light && 'z-[60]'
+                  }`}
+                  onClick={() => setLight(!light)}
+                >
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    className='h-6 w-6'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    stroke='currentColor'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth={2}
+                      d='M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z'
+                    />
+                  </svg>
+                  {light ? 'Turn off light' : 'Turn on light'}
+                </button>
+                <Link
+                  to={`/tv/${data?.id}?episode=${episodeIndex - 1}`}
+                  className={`rounded-md border border-slate-600 px-3 mr-2 mb-2 hover:bg-orange-600 hover:border-orange-600 flex items-center ${
+                    episodeIndex && episodeIndex > 1
+                      ? ''
+                      : 'pointer-events-none'
+                  }`}
+                >
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    className='h-5 w-5'
+                    viewBox='0 0 20 20'
+                    fill='currentColor'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M15.707 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 010 1.414zm-6 0a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 011.414 1.414L5.414 10l4.293 4.293a1 1 0 010 1.414z'
+                      clipRule='evenodd'
+                    />
+                  </svg>
+                  Previous episode
+                </Link>
+                <Link
+                  to={`/tv/${data?.id}?episode=${episodeIndex + 1}`}
+                  className={`rounded-md border border-slate-600 px-3 mr-2 mb-2 hover:bg-orange-600 hover:border-orange-600 flex items-center ${
+                    episodeIndex && episodeIndex < data?.episodeVo?.length
+                      ? ''
+                      : 'pointer-events-none'
+                  }`}
+                >
+                  Next episode
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    className='h-5 w-5'
+                    viewBox='0 0 20 20'
+                    fill='currentColor'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z'
+                      clipRule='evenodd'
+                    />
+                    <path
+                      fillRule='evenodd'
+                      d='M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z'
+                      clipRule='evenodd'
+                    />
+                  </svg>
+                </Link>
+                <button className='rounded-md border border-slate-600 px-3 mr-2 mb-2 hover:bg-orange-600 hover:border-orange-600 flex items-center'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    className='h-6 w-6'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    stroke='currentColor'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth={2}
+                      d='M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
+                    />
+                  </svg>
+                  Report
+                </button>
+                <button className='rounded-md border border-slate-600 px-3 mr-2 mb-2 hover:bg-orange-600 hover:border-orange-600 flex items-center'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    className='h-6 w-6'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    stroke='currentColor'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth={2}
+                      d='M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z'
+                    />
+                  </svg>
+                  Share
+                </button>
               </div>
               <div>
                 {/* Episodes */}
@@ -118,7 +237,9 @@ function Watch({ data, sources, subtitles, episodeIndex }) {
                 </div>
               </div>
             </div>
-            <div className='md:w-max-fit md:w-[300px] md:h-screen overflow-auto flex-shrink-0 md:pl-4 md:block'>
+            <div
+              className={`md:w-max-fit md:w-[300px] md:h-screen overflow-auto flex-shrink-0 md:pl-4 md:block`}
+            >
               <SimilarMovie data={data} />
             </div>
           </div>

@@ -18,14 +18,12 @@ function Banner({ data }) {
         <Swiper
           className='rounded-xl h-fit select-none'
           modules={[Navigation, Pagination]}
-          spaceBetween={5}
+          spaceBetween={10}
           breakpoints={{
-            640: {
-              // width: 640,
+            768: {
               slidesPerView: 1,
             },
-            768: {
-              // width: 768,
+            1024: {
               slidesPerView: 2,
             },
           }}
@@ -44,13 +42,13 @@ function Banner({ data }) {
                 <SwiperSlide key={item.id}>
                   <Link
                     to={item.link}
-                    className='sm:bg-inherit relative rounded-xl overflow-hidden shadow-md block'
+                    className='sm:bg-inherit relative rounded-xl overflow-hidden shadow-md block group'
                   >
-                    <h1 className='absolute bottom-[2rem] left-[2rem] text-white bg-opacity-40 cursor-default bg-black py-1 px-2 rounded-md whitespace-nowrap text-ellipsis overflow-hidden max-w-[30%]'>
-                      {item.title}
-                    </h1>
+                    <h1
+                      className='absolute text-white bg-black bg-opacity-60 px-2 rounded-md border border-slate-300 bottom-[30px] left-[5%] group-hover:bg-orange-600 group-hover:border-orange-600 transition whitespace-nowrap text-ellipsis max-w-[90%] overflow-hidden'
+                    >{item?.title}</h1>
                     <LazyLoadImage
-                      className='w-full h-full md:max-h-[200px] max-h-[300px] object-cover rounded-2xl'
+                      className='w-full h-[200px] object-cover rounded-2xl'
                       src={item.image}
                       alt={item.title}
                     />
@@ -79,9 +77,10 @@ function Banner({ data }) {
           pagination={{ clickable: true }}
         >
           {[...new Array(5)].map((_, index) => (
-            <SwiperSlide key={index}>
-              <Skeleton className='sm:bg-inherit relative rounded-xl overflow-hidden shadow-md block w-full h-[300px]' />
-            </SwiperSlide>
+            <SwiperSlide
+              key={index}
+              className='bg-slate-600 relative rounded-xl overflow-hidden shadow-md block w-full h-[300px]'
+            ></SwiperSlide>
           ))}
         </Swiper>
       )}

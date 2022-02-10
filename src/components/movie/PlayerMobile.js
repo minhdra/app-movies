@@ -1,50 +1,32 @@
 import { useRef, useState } from 'react';
-
-import HlsPlayer from 'react-hls-player';
 import { srt2wtt } from '../../utils/utils';
+import ReactPlayer from 'react-player';
 
-const PlayerMobile = ({ data, sources, subtitles }) => {
-  const playerRef = useRef(null);
-  const [loadedData, setLoadedData] = useState(false);
+const PlayerMobile = ({ data, sources, subtitles, light }) => {
 
   return (
-    <div className='relative w-full h-0 pb-[56.25%]'>
+    <div className={`relative w-full h-0 pb-[56.25%] ${!light && 'z-[60]'}`}>
       <div className='absolute top-0 left-0 w-full h-full flex justify-center items-center group bg-black'>
-        <HlsPlayer
-          crossOrigin=''
-          playsInline
+        <ReactPlayer
+          width={'100%'}
+          height={'100%'}
+          url={sources[0]?.url}
           controls
-          autoPlay={false}
-          playerRef={playerRef}
-          src={sources[0].url}
-          className='w-full h-full'
-          onLoadedData={() => {
-            setLoadedData(true);
-            // const currentTime = Number(
-            //   localStorage.getItem(`${playerKey}-time`)
-            // );
-            const time = 0;
-            playerRef.current && (playerRef.current.currentTime = time);
+          pip
+          config={{
+            file: {
+              attributes: {
+                crossOrigin: '',
+              },
+              tracks: subtitles.map((item, index) => ({
+                kind: 'subtitles',
+                src: srt2wtt(item?.url),
+                srcLang: item.language,
+                default: index === 0 && true,
+              })),
+            },
           }}
-          onTimeUpdate={() => {
-            // localStorage.setItem(
-            //   `${playerKey}-time`,
-            //   String(playerRef.current?.currentTime || 0)
-            // );
-          }}
-        >
-          {loadedData &&
-            subtitles.map((subtitle, index) => (
-              <track
-                key={index}
-                kind='subtitles'
-                srcLang={subtitle.lang}
-                label={subtitle.language}
-                src={srt2wtt(subtitle?.url)}
-                default={index === 0}
-              />
-            ))}
-        </HlsPlayer>
+        />
       </div>
     </div>
   );

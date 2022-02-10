@@ -196,8 +196,8 @@ function Sidebar({ onClick, show }) {
       </motion.div>
 
       {!show && (
-        <aside className='sticky pt-20 top-0 w-fit md:inline-block float-left hidden min-w-max min-h-screen bg-white dark:bg-slate-900'>
-          <div className='p-4'>
+        <aside className='sticky pt-24 top-0 w-fit md:inline-block float-left hidden min-w-max h-screen bg-white dark:bg-slate-900'>
+          <div className='px-4 border-r border-slate-700 h-full'>
             <ul className='list-none flex flex-col items-center'>
               {navigation.map((item) => (
                 <li key={item.id} className='first:mt-0 my-1'>

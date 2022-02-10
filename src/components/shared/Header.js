@@ -70,7 +70,7 @@ function Header() {
   return (
     <>
       <header
-        className='w-full fixed z-50 text-gray-800
+        className='w-full fixed z-40 text-gray-800
     dark:border-slate-600 border-b bg-slate-50 border-slate-300 shadow-md dark:bg-slate-900'
       >
         {/* Desktop and ipad */}
@@ -343,7 +343,7 @@ function Header() {
               </label>
             </div>
             {/* Button toggle form search */}
-            <SearchTop/>
+            <SearchTop />
             {/* Notification */}
             {isLogin ? (
               <div
@@ -377,8 +377,8 @@ function Header() {
           </div>
         </nav>
       </header>
-      
-        <Sidebar show={showSidebar} onClick={handleToggleSidebar} />
+
+      <Sidebar show={showSidebar} onClick={handleToggleSidebar} />
       {showNotify && <Notification onClick={handleToggleNotify} />}
     </>
   );

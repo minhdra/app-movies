@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom';
-import Sidebar from '../shared/Sidebar';
 import Skeleton from '../shared/Skeleton';
-import LoadImage from '../shared/LoadImage';
 import Filter from '../shared/Filter';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 function Result({ data, keyword }) {
   const [filtered, setFiltered] = useState([]);
@@ -31,12 +30,12 @@ function Result({ data, keyword }) {
             setActive={setActive}
           />
           {filtered?.length > 0 ? (
-            <motion.div layout className='flex-wrap flex'>
+            <motion.div layout className='grid grid-cols-fit gap-x-4 gap-y-6'>
               {filtered.map((item) => (
                 <motion.div
                   layout
                   key={item.id}
-                  className='relative group w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 mb-4 px-2'
+                  className='relative group'
                 >
                   <Link
                     to={`${
@@ -48,14 +47,13 @@ function Result({ data, keyword }) {
                   >
                     <div
                       className='!absolute bottom-0 left-0 z-10 w-full'
-                      data-tooltip={item?.name}
                     >
-                      <h1 className='whitespace-nowrap text-ellipsis bg-black text-white text-md font-medium bg-opacity-60 p-2 text-center rounded-br-lg rounded-bl-lg group-hover:text-orange-500 overflow-hidden mx-2'>
+                      <h1 className='whitespace-nowrap text-ellipsis bg-black text-white text-md font-medium bg-opacity-60 p-2 text-center rounded-br-lg rounded-bl-lg group-hover:text-orange-500 overflow-hidden'>
                         {item?.name}
                       </h1>
                     </div>
-                    <LoadImage
-                      className='w-full h-full object-cover rounded-lg transition group-hover:brightness-90'
+                    <LazyLoadImage
+                      className='w-full h-[30vh] object-cover rounded-lg transition group-hover:brightness-90 bg-slate-800'
                       src={item?.coverHorizontalUrl}
                     />
                   </Link>
@@ -68,15 +66,11 @@ function Result({ data, keyword }) {
         </div>
       ) : (
         <div className='pt-24 pb-5 px-4 overflow-hidden w-full'>
-          <Skeleton className='w-[60%] h-7 mb-4' />
-          <div className='flex-wrap flex w-full'>
+          <Skeleton className='w-[70%] h-7 mb-4' />
+          <Skeleton className='w-[40%] h-7 mb-4' />
+          <div className='grid grid-cols-fit gap-x-4 gap-y-6'>
             {[...new Array(50)].map((_, index) => (
-              <div
-                key={index}
-                className='px-1 w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5'
-              >
-                <Skeleton className=' mb-4 px-2 rounded-lg h-[200px]'></Skeleton>
-              </div>
+                <Skeleton key={index} className=' mb-4 px-2 rounded-lg h-[30vh]'></Skeleton>
             ))}
           </div>
         </div>

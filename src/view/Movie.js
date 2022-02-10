@@ -1,5 +1,4 @@
 import { useParams } from 'react-router-dom';
-import useSWR from 'swr';
 import Watch from '../components/movie/Watch';
 import { getMovieDetail } from '../services/movie';
 import Error from '../components/shared/Error';
@@ -16,8 +15,6 @@ function MovieDetail() {
     setData(null);
     getMovieDetail(id).then(res => setData(res)).catch(error => setError(error));
   }, [id]);
-  
-  console.log(error, data)
 
   if (error) return <Error/> ;
 

@@ -20,7 +20,7 @@ function Home() {
             !error &&
             data.map((section) => {
               if (section.homeSectionType === 'BANNER') return (
-                <div className='mb-8' key={section.homeSectionId}>
+                <div className='mb-4' key={section.homeSectionId}>
                   <Banner
                     data={section.recommendContentVOList.map((item) => {
                       const params = new URLSearchParams(
@@ -43,7 +43,7 @@ function Home() {
               );
               else if (section.homeSectionType === 'BLOCK_GROUP') return false;
               else return (
-                <div className='mb-8' key={section.homeSectionId}>
+                <div className='mb-4' key={section.homeSectionId}>
                   <h1 className='text-xl font-medium py-2'>
                     {section.homeSectionName?.replace('Loklok', 'Dra')}
                   </h1>
