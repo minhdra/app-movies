@@ -56,7 +56,6 @@ export async function getTvDetail(id, episodeIndex) {
       return [...acc, element];
     }, []);
 
-  
   return {
     data,
     sources,

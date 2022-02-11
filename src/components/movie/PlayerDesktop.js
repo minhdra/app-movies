@@ -1,9 +1,7 @@
-import { useEffect, useState, useRef } from 'react';
 import ReactPlayer from 'react-player';
-import { formatTime, srt2wtt } from '../../utils/utils';
+import { srt2wtt } from '../../utils/utils';
 
 function PlayerDesktop({ sources, subtitles, light }) {
-
   return (
     <div className={`relative w-full h-0 pb-[56.25%] overflow-hidden ${!light && 'z-[60]'}`}>
       <div
@@ -14,7 +12,6 @@ function PlayerDesktop({ sources, subtitles, light }) {
           height={'100%'}
           url={sources[0]?.url}
           controls
-          pip
           config={{
             file: {
               attributes: {

@@ -4,7 +4,7 @@ import Skeleton from '../shared/Skeleton';
 import { isMobile } from '../../utils/utils';
 import PlayerMobile from './PlayerMobile';
 import SimilarMovie from './SimilarMovie';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Overlay from '../shared/Overlay';
 
 function Watch({ data, sources, subtitles, episodeIndex }) {
@@ -33,8 +33,8 @@ function Watch({ data, sources, subtitles, episodeIndex }) {
                     <PlayerDesktop
                       data={data}
                       sources={sources}
-                        subtitles={subtitles}
-                        light={light}
+                      subtitles={subtitles}
+                      light={light}
                     />
                   )
                 ) : (

@@ -86,7 +86,6 @@ const sidebar = {
   closed: {
     opacity: 0,
     x: '-100%',
-    transition: { type: 'spring', bounce: 0, duration: 0.4 },
   },
 };
 
