@@ -11,6 +11,7 @@ function Result({ data, keyword }) {
   useEffect(() => {
     setFiltered(data);
   }, [data]);
+  console.log(data)
   return (
     <div className='flex dark:bg-slate-900 min-h-screen'>
       {/* <div className='hidden lg:block'>

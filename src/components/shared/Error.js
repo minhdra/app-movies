@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 function Error() {
   return (
-    <div className='flex items-center justify-center w-full pt-20 pb-4 min-h-screen'>
-      <div className='px-4 lg:py-12'>
+    <div className='inline-flex items-center justify-center pt-20 pb-4 min-h-screen'>
+      <div className='px-4 lg:py-12 w-[80vw]'>
         <div className='lg:gap-4 lg:flex'>
           <div className='mt-4'>
             <img

@@ -5,6 +5,7 @@ export function formatTime(timeInSeconds) {
     hours: result.substr(0, 2),
     minutes: result.substr(3, 2),
     seconds: result.substr(6, 2),
+    timeResult: result.substr(0, 2)+':'+result.substr(3, 2)+':'+result.substr(6, 2),
   };
 }
 

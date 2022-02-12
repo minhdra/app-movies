@@ -34,6 +34,7 @@ function Watch({ data, sources, subtitles, episodeIndex }) {
                       data={data}
                       sources={sources}
                       subtitles={subtitles}
+                      episodeIndex={episodeIndex}
                       light={light}
                     />
                   )

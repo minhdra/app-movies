@@ -1,7 +1,6 @@
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import Skeleton from '../shared/Skeleton';
 import SwiperCore, { Navigation, Pagination, Autoplay } from 'swiper';
 
 // Import Swiper styles

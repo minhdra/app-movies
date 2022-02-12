@@ -1,0 +1,21 @@
+.rc-slider-track {
+    @apply bg-orange-600;
+}
+
+.rc-slider-handle {
+    @apply border-orange-600 bg-orange-600 ;
+    &:focus, &:hover {
+        @apply border-orange-600;
+    }
+}
+
+.rc-slider:hover .rc-slider-handle {
+    display: block;
+}
+
+.volume:hover .volume-slider,
+.speed:hover .speed-list,
+.subtitle:hover .subtitle-list
+{
+    display: block;
+}
