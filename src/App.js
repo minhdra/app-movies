@@ -10,6 +10,7 @@ import TvDetail from './view/Tv';
 
 import { useLocation } from 'react-router-dom';
 import Search from './view/Search';
+import SignIn from './view/SignIn';
 
 function App() {
   const location = useLocation();
@@ -28,6 +29,7 @@ function App() {
           {/* <Route path='tv' element={<Home />} /> */}
           <Route path='tv/:id' element={<TvDetail />} />
           <Route path='search' element={<Search />} />
+          <Route path='sign-in' element={<SignIn/>} />
           <Route path='*' element={<Navigate to='/'/>} />
         </Routes>
         <Footer />

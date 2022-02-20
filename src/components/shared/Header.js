@@ -4,10 +4,23 @@ import { Link } from 'react-router-dom';
 import Notification from './Notification';
 import SearchTop from '../search/SearchTop';
 import Sidebar from './Sidebar';
+import firebase from 'firebase/compat/app';
+import { getAuth, signOut } from 'firebase/auth';
+import 'firebase/compat/auth';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
+
+// Configure Firebase.
+const config = {
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+};
+firebase.initializeApp(config);
+
+// get auth
+const auth = getAuth();
 
 function Header() {
   const [user, setUser] = useState();
@@ -26,15 +39,17 @@ function Header() {
   });
 
   useEffect(() => {
-    setUser({
-      id: 1,
-      name: 'Selena',
-      avatar:
-        'https://img5.thuthuatphanmem.vn/uploads/2021/11/22/anh-chung-toi-don-gian-la-gau_092900900.png',
+    const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
+      setIsLogin(!!user);
+      if (user) setUser({
+        id: user.uid,
+        name: user.displayName,
+        avatar: user.photoURL
+      })
     });
-
-    setIsLogin(true);
+    return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
   }, []);
+
   useEffect(() => {
     const handleResize = () => {
       if (showSidebar && window.innerWidth <= 768) setShowSidebar(true);
@@ -56,8 +71,6 @@ function Header() {
     setShowNotify(state);
   }
 
-  function signIn() {}
-
   function handleToggleDarkMode() {
     setIsChecked(!isChecked);
     let theme = localStorage.getItem('theme');
@@ -71,12 +84,12 @@ function Header() {
     <>
       <header
         className='w-full fixed z-40 text-gray-800
-    dark:border-slate-600 border-b bg-slate-50 border-slate-300 shadow-md dark:bg-slate-900'
+     border-b bg-slate-50 border-slate-400 shadow-md dark:bg-slate-900'
       >
         {/* Desktop and ipad */}
         <nav className='w-full mx-auto md:flex hidden flex-wrap items-center justify-between p-4'>
           {/* Brand */}
-          <div className='flex-shrink-0 flex items-center flex-1'>
+          <div className='flex-shrink-0 flex items-center flex-1 select-none'>
             <div className='flex items-center'>
               <Link
                 className='toggleColour text-gray-800 no-underline hover:no-underline font-bold text-2xl lg:text-4xl flex items-end'
@@ -151,7 +164,7 @@ function Header() {
             </div>
             {/* User wrapper */}
             <div className='hidden md:flex text-gray-800 items-center md:flex-shrink-1'>
-              {/* user */}
+              {/* user? */}
               <div>
                 {isLogin ? (
                   <div className='flex items-center'>
@@ -182,8 +195,8 @@ function Header() {
                       onClick={() => setShowOptions(!showOptions)}
                     >
                       <img
-                        src={user.avatar}
-                        alt={user.name}
+                        src={user?.avatar}
+                        alt={user?.name}
                         className='w-9 h-9 rounded-full'
                       />
                       <div>
@@ -227,24 +240,25 @@ function Header() {
                             </Link>
                           </li>
                           <li>
-                            <Link
-                              to='/'
-                              className='block py-2 px-4 text-sm text-gray-900 hover:bg-gray-200 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white'
+                            <button
+                              className='block py-2 px-4 text-sm text-gray-900 hover:bg-gray-200 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white w-full text-left'
+                              onClick={() => signOut(auth)}
                             >
                               Sign out
-                            </Link>
+                            </button>
                           </li>
                         </ul>
                       </div>
                     </div>
                   </div>
                 ) : (
-                  <button
-                    className='rounded bg-orange-500 text-white py-1 px-3 md:ml-2 hover:bg-orange-600 '
-                    onClick={signIn}
+                  <Link
+                    className='rounded font-medium bg-orange-500 text-white py-1 px-4 md:ml-2 hover:bg-orange-600 '
+                    type='button'
+                    to={'/sign-in'}
                   >
                     Sign In
-                  </button>
+                  </Link>
                 )}
               </div>
             </div>
@@ -367,12 +381,13 @@ function Header() {
                 </svg>
               </div>
             ) : (
-              <button
-                className='rounded bg-orange-500 text-white py-1 px-3 ml-2 hover:bg-orange-600 '
-                onClick={signIn}
+              <Link
+                className='rounded font-medium bg-orange-500 text-white py-1 px-4 md:ml-2 hover:bg-orange-600 '
+                type='button'
+                to={'/sign-in'}
               >
                 Sign In
-              </button>
+              </Link>
             )}
           </div>
         </nav>

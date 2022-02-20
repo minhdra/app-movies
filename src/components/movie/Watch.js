@@ -16,11 +16,8 @@ function Watch({ data, sources, subtitles, episodeIndex }) {
       <div className='flex md:flex-row dark:bg-slate-900 min-h-screen px-4'>
         <div className='pt-24 lg:px-4 w-full'>
           <div className='md:flex'>
-            <div className='w-full md:pr-4 md:border-r md:border-slate-700'>
-              <h1 className='text-2xl font-bold'>
-                <span className=''>Name: {data?.name}</span>
-              </h1>
-              <div className={`w-full my-4`}>
+            <div className='w-full md:pr-4 md:border-r md:border-slate-400'>
+              <div className={`w-full mb-4`}>
                 {data && sources && subtitles ? (
                   isMobile() ? (
                     <PlayerMobile
@@ -239,7 +236,7 @@ function Watch({ data, sources, subtitles, episodeIndex }) {
               </div>
             </div>
             <div
-              className={`md:w-max-fit md:w-[300px] md:h-screen overflow-auto flex-shrink-0 md:pl-4 md:block`}
+              className={`md:w-max-fit md:w-[300px] md:h-screen hover:overflow-auto flex-shrink-0 md:pl-4 md:block`}
             >
               <SimilarMovie data={data} />
             </div>

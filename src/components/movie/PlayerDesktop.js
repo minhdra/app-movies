@@ -16,6 +16,10 @@ function PlayerDesktop({ data, sources, subtitles, episodeIndex, light }) {
   const containerRef = useRef();
   const timeoutRef = useRef();
 
+  useEffect(() => {
+    if (!playing) setShowControls(true);
+  }, [playing]);
+
   return (
     <div
       className={`relative w-full h-0 pb-[56.25%] overflow-hidden ${
@@ -28,10 +32,10 @@ function PlayerDesktop({ data, sources, subtitles, episodeIndex, light }) {
           if (timeoutRef.current) clearTimeout(timeoutRef.current);
           setShowControls(true);
           timeoutRef.current = setTimeout(() => {
-            setShowControls(false);
+            if(playing) setShowControls(false);
           }, 2000);
         }}
-        onMouseLeave={() => { setShowControls(false); if (timeoutRef.current) clearTimeout(timeoutRef.current);}}
+        onMouseLeave={() => { if(playing) setShowControls(false); if (timeoutRef.current) clearTimeout(timeoutRef.current);}}
         className='absolute top-0 left-0 w-full h-full flex justify-center items-center group bg-black'
       >
         <ReactPlayer
