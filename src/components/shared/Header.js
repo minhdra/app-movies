@@ -5,7 +5,7 @@ import Notification from './Notification';
 import SearchTop from '../search/SearchTop';
 import Sidebar from './Sidebar';
 import firebase from 'firebase/compat/app';
-import { getAuth, signOut } from 'firebase/auth';
+import { FacebookAuthProvider, getAuth, signOut } from 'firebase/auth';
 import 'firebase/compat/auth';
 
 function classNames(...classes) {
@@ -17,10 +17,10 @@ const config = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
 };
+// console.log(config)
 if(config.apiKey)
   firebase.initializeApp(config);
 
-// get auth
 const auth = getAuth();
 
 function Header() {
@@ -48,6 +48,7 @@ function Header() {
         avatar: user.photoURL
       })
     });
+
     return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
   }, []);
 

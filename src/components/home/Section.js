@@ -2,6 +2,7 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/opacity.css';
 
 // Import Swiper styles
 import 'swiper/scss';
@@ -34,7 +35,7 @@ function Section({ data }) {
               </h1>
             </div>
             <LazyLoadImage
-              className='w-full h-full object-cover rounded-xl transition group-hover:brightness-90'
+              className={`w-full h-full object-cover rounded-xl transition group-hover:brightness-90 bg-slate-800`}
               src={item.image}
               width={175}
               height={270}

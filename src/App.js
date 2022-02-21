@@ -21,18 +21,16 @@ function App() {
 
   return (
     <div className='app'>
-        <Header />
-        <Routes>
-          <Route index element={<Home />} />
-          {/* <Route path='movie' element={<Home />} /> */}
-          <Route path='movie/:id' element={<MovieDetail />} />
-          {/* <Route path='tv' element={<Home />} /> */}
-          <Route path='tv/:id' element={<TvDetail />} />
-          <Route path='search' element={<Search />} />
-          <Route path='sign-in' element={<SignIn/>} />
-          <Route path='*' element={<Navigate to='/'/>} />
-        </Routes>
-        <Footer />
+      <Header />
+      <Routes>
+        <Route index element={<Home />} />
+        <Route path='movie/:id' element={<MovieDetail />} />
+        <Route path='tv/:id' element={<TvDetail />} />
+        <Route path='search' element={<Search />} />
+        <Route path='sign-in' element={<SignIn />} />
+        <Route path='*' element={<Navigate to='/' />} />
+      </Routes>
+      <Footer />
     </div>
   );
 }
