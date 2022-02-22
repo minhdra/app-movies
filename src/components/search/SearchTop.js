@@ -86,7 +86,7 @@ function SearchTop() {
               placeholder='Search name of movies...'
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
-              onClick={(e) => e.target.select()}
+              // onClick={(e) => e.target.select()}
             />
             <Link
               ref={buttonSearchRef}
@@ -201,7 +201,7 @@ function SearchTop() {
                 placeholder='Search name of movies...'
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
-                onClick={(e) => e.target.select()}
+                // onClick={(e) => e.target.select()}
               />
               <Link
                 ref={buttonSearchRef}

@@ -36,7 +36,7 @@ function Header() {
       localStorage.setItem('theme', theme);
     }
     document.body.classList.add(theme);
-    return theme === 'light';
+    return theme === 'dark';
   });
 
   useEffect(() => {

@@ -6,14 +6,15 @@ import { useEffect, useState } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import Header from '../shared/Header';
 import Footer from '../shared/Footer';
+import 'react-lazy-load-image-component/src/effects/opacity.css';
 
 function Result({ data, keyword }) {
   const [filtered, setFiltered] = useState([]);
   const [active, setActive] = useState(0);
   useEffect(() => {
-    setFiltered(data);
+    if(data)
+      setFiltered(data);
   }, [data]);
-  console.log(data)
   return (
     <>
       <Header/>
@@ -35,7 +36,7 @@ function Result({ data, keyword }) {
               setActive={setActive}
             />
             {filtered?.length > 0 ? (
-              <motion.div layout className='grid grid-cols-fit gap-x-4 gap-y-6'>
+              <motion.div layout className={`${filtered.length > 2 ? 'grid-cols-fit' : 'grid-cols-2'} grid gap-x-4 gap-y-6`}>
                 {filtered.map((item) => (
                   <motion.div
                     layout
@@ -60,6 +61,7 @@ function Result({ data, keyword }) {
                       <LazyLoadImage
                         className='w-full h-[30vh] object-cover rounded-lg transition group-hover:brightness-90 bg-slate-800'
                         src={item?.coverHorizontalUrl}
+                        effect="opacity"
                       />
                     </Link>
                   </motion.div>
@@ -74,7 +76,7 @@ function Result({ data, keyword }) {
             <Skeleton className='w-[70%] h-7 mb-4' />
             <Skeleton className='w-[40%] h-7 mb-4' />
             <div className='grid grid-cols-fit gap-x-4 gap-y-6'>
-              {[...new Array(50)].map((_, index) => (
+              {[...new Array(10)].map((_, index) => (
                   <Skeleton key={index} className=' mb-4 px-2 rounded-lg h-[30vh]'></Skeleton>
               ))}
             </div>
