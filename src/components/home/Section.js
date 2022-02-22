@@ -15,7 +15,7 @@ function Section({ data }) {
     <Swiper
       className='rounded-xl select-none'
       modules={[Navigation]}
-      spaceBetween={20}
+      spaceBetween={10}
       slidesPerView='auto'
       slidesPerGroupAuto
       navigation
@@ -35,7 +35,7 @@ function Section({ data }) {
               </h1>
             </div>
             <LazyLoadImage
-              className={`w-full h-full object-cover rounded-xl transition group-hover:brightness-90 bg-slate-800`}
+              className={`w-full h-full object-cover rounded-xl transition group-hover:brightness-90 bg-slate-700`}
               src={item.image}
               width={175}
               height={270}

@@ -4,14 +4,20 @@ import Skeleton from '../shared/Skeleton';
 import { isMobile } from '../../utils/utils';
 import PlayerMobile from './PlayerMobile';
 import SimilarMovie from './SimilarMovie';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Overlay from '../shared/Overlay';
+import Header from '../shared/Header';
+import Footer from '../shared/Footer';
 
 function Watch({ data, sources, subtitles, episodeIndex }) {
   const [light, setLight] = useState(true);
+  const [autoPlay, setAutoPlay] = useState(false);
+
+  const nextRef = useRef();
 
   return (
     <>
+      <Header/>
       {!light && <Overlay opacity={100} zIndex={40} />}
       <div className='flex md:flex-row dark:bg-slate-900 min-h-screen px-4'>
         <div className='pt-24 lg:px-4 w-full'>
@@ -33,6 +39,8 @@ function Watch({ data, sources, subtitles, episodeIndex }) {
                       subtitles={subtitles}
                       episodeIndex={episodeIndex}
                       light={light}
+                        autoPlay={autoPlay}
+                        nextRef={nextRef}
                     />
                   )
                 ) : (
@@ -65,55 +73,66 @@ function Watch({ data, sources, subtitles, episodeIndex }) {
                   </svg>
                   {light ? 'Turn off light' : 'Turn on light'}
                 </button>
-                <Link
-                  to={`/tv/${data?.id}?episode=${episodeIndex - 1}`}
-                  className={`rounded-md border border-slate-600 px-3 mr-2 mb-2 hover:bg-orange-600 hover:border-orange-600 flex items-center ${
-                    episodeIndex && episodeIndex > 1
-                      ? ''
-                      : 'pointer-events-none'
-                  }`}
-                >
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    className='h-5 w-5'
-                    viewBox='0 0 20 20'
-                    fill='currentColor'
-                  >
-                    <path
-                      fillRule='evenodd'
-                      d='M15.707 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 010 1.414zm-6 0a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 011.414 1.414L5.414 10l4.293 4.293a1 1 0 010 1.414z'
-                      clipRule='evenodd'
-                    />
-                  </svg>
-                  Previous episode
-                </Link>
-                <Link
-                  to={`/tv/${data?.id}?episode=${episodeIndex + 1}`}
-                  className={`rounded-md border border-slate-600 px-3 mr-2 mb-2 hover:bg-orange-600 hover:border-orange-600 flex items-center ${
-                    episodeIndex && episodeIndex < data?.episodeVo?.length
-                      ? ''
-                      : 'pointer-events-none'
-                  }`}
-                >
-                  Next episode
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    className='h-5 w-5'
-                    viewBox='0 0 20 20'
-                    fill='currentColor'
-                  >
-                    <path
-                      fillRule='evenodd'
-                      d='M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z'
-                      clipRule='evenodd'
-                    />
-                    <path
-                      fillRule='evenodd'
-                      d='M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z'
-                      clipRule='evenodd'
-                    />
-                  </svg>
-                </Link>
+                {episodeIndex && (
+                  <>
+                    <Link
+                      to={`/tv/${data?.id}?episode=${episodeIndex - 1}`}
+                      className={`rounded-md border border-slate-600 px-3 mr-2 mb-2 hover:bg-orange-600 hover:border-orange-600 flex items-center ${
+                        episodeIndex && episodeIndex > 1
+                          ? ''
+                          : 'pointer-events-none'
+                      }`}
+                    >
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        className='h-5 w-5'
+                        viewBox='0 0 20 20'
+                        fill='currentColor'
+                      >
+                        <path
+                          fillRule='evenodd'
+                          d='M15.707 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 010 1.414zm-6 0a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 011.414 1.414L5.414 10l4.293 4.293a1 1 0 010 1.414z'
+                          clipRule='evenodd'
+                        />
+                      </svg>
+                      Previous episode
+                    </Link>
+                    <Link
+                      ref={nextRef}
+                      to={`/tv/${data?.id}?episode=${episodeIndex + 1}`}
+                      className={`rounded-md border border-slate-600 px-3 mr-2 mb-2 hover:bg-orange-600 hover:border-orange-600 flex items-center ${
+                        episodeIndex && episodeIndex < data?.episodeVo?.length
+                          ? ''
+                          : 'pointer-events-none'
+                      }`}
+                    >
+                      Next episode
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        className='h-5 w-5'
+                        viewBox='0 0 20 20'
+                        fill='currentColor'
+                      >
+                        <path
+                          fillRule='evenodd'
+                          d='M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z'
+                          clipRule='evenodd'
+                        />
+                        <path
+                          fillRule='evenodd'
+                          d='M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z'
+                          clipRule='evenodd'
+                        />
+                      </svg>
+                    </Link>
+                    <button
+                      className='rounded-md border border-slate-600 px-3 mr-2 mb-2 hover:bg-orange-600 hover:border-orange-600 flex items-center'
+                      onClick={()=>setAutoPlay(!autoPlay)}
+                    >
+                      Auto play: {autoPlay ? 'On' : 'Off'}
+                    </button>
+                  </>
+                )}
                 <button className='rounded-md border border-slate-600 px-3 mr-2 mb-2 hover:bg-orange-600 hover:border-orange-600 flex items-center'>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -236,13 +255,14 @@ function Watch({ data, sources, subtitles, episodeIndex }) {
               </div>
             </div>
             <div
-              className={`md:w-max-fit md:w-[300px] md:h-screen hover:overflow-auto flex-shrink-0 md:pl-4 md:block`}
+              className={`md:w-max-fit md:w-[300px] md:h-screen overflow-hidden hover:overflow-auto flex-shrink-0 md:pl-4 md:block`}
             >
               <SimilarMovie data={data} />
             </div>
           </div>
         </div>
       </div>
+      <Footer/>
     </>
   );
 }

@@ -45,7 +45,7 @@ function Banner({ data }) {
                   >
                     <div className='w-full h-0 pb-[42%] relative'>
                       <h1
-                        className='absolute text-white bg-black bg-opacity-60 px-2 rounded-md border border-slate-300 top-0 left-0 -translate-x-full z-10 group-hover:bg-orange-600 group-hover:border-orange-600 group-hover:-translate-x-0 transition duration-300 whitespace-nowrap text-ellipsis max-w-[90%] overflow-hidden'
+                        className='absolute text-white bg-black bg-opacity-60 px-2 rounded-md border border-slate-300 top-0 left-0 -translate-x-[101%] z-10 group-hover:bg-orange-600 group-hover:border-orange-600 group-hover:translate-x-0 transition duration-300 whitespace-nowrap text-ellipsis max-w-[90%] overflow-hidden'
                       >{item?.title}</h1>
                       <LazyLoadImage
                         className='w-full h-full object-cover rounded-2xl absolute top-0 left-0'

@@ -10,7 +10,7 @@ const SkeletonSlider = () => {
       navigation
       slidesPerView="auto"
       slidesPerGroupAuto
-      spaceBetween={30}
+      spaceBetween={10}
     >
       {[...new Array(Math.ceil(window.innerWidth / 200))].map((_, index) => (
         <SwiperSlide className="!w-[175px]" key={index}>

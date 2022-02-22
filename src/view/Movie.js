@@ -14,7 +14,7 @@ function MovieDetail() {
     getMovieDetail(id).then(res => setData(res)).catch(error => setError(error));
   }, [id]);
 
-  if (error) return <Error/> ;
+  if (error) return <Error />;
 
   return (
     <Watch

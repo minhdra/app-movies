@@ -3,7 +3,15 @@ import ReactPlayer from 'react-player';
 import { srt2wtt } from '../../utils/utils';
 import Controls from '../shared/Controls';
 
-function PlayerDesktop({ data, sources, subtitles, episodeIndex, light }) {
+function PlayerDesktop({
+  data,
+  sources,
+  subtitles,
+  episodeIndex,
+  light,
+  autoPlay,
+  nextRef,
+}) {
   const [playing, setPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
@@ -24,7 +32,7 @@ function PlayerDesktop({ data, sources, subtitles, episodeIndex, light }) {
     <div
       className={`relative w-full h-0 pb-[56.25%] overflow-hidden ${
         !light ? 'z-[60]' : ''
-        }`}
+      }`}
     >
       <div
         ref={containerRef}
@@ -32,10 +40,13 @@ function PlayerDesktop({ data, sources, subtitles, episodeIndex, light }) {
           if (timeoutRef.current) clearTimeout(timeoutRef.current);
           setShowControls(true);
           timeoutRef.current = setTimeout(() => {
-            if(playing) setShowControls(false);
+            if (playing) setShowControls(false);
           }, 2000);
         }}
-        onMouseLeave={() => { if(playing) setShowControls(false); if (timeoutRef.current) clearTimeout(timeoutRef.current);}}
+        onMouseLeave={() => {
+          if (playing) setShowControls(false);
+          if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        }}
         className='absolute top-0 left-0 w-full h-full flex justify-center items-center group bg-black'
       >
         <ReactPlayer
@@ -50,11 +61,21 @@ function PlayerDesktop({ data, sources, subtitles, episodeIndex, light }) {
           onProgress={(item) => {
             setCurrentTime(item.playedSeconds);
           }}
-          onEnded={() => setPlaying(false)}
+          onEnded={() => {
+            if (autoPlay) {
+              if (
+                episodeIndex &&
+                episodeIndex < data?.episodeVo?.length &&
+                nextRef.current
+              )
+                nextRef.current.click();
+            } else setPlaying(false);
+          }}
           config={{
             file: {
               attributes: {
                 crossOrigin: '',
+                poster: data?.coverHorizontalUrl,
               },
               tracks: subtitles.map((item, index) => ({
                 kind: 'subtitles',

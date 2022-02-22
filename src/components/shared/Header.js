@@ -5,7 +5,7 @@ import Notification from './Notification';
 import SearchTop from '../search/SearchTop';
 import Sidebar from './Sidebar';
 import firebase from 'firebase/compat/app';
-import { FacebookAuthProvider, getAuth, signOut } from 'firebase/auth';
+import { getAuth, signOut } from 'firebase/auth';
 import 'firebase/compat/auth';
 
 function classNames(...classes) {
@@ -32,11 +32,11 @@ function Header() {
   const [isChecked, setIsChecked] = useState(() => {
     let theme = localStorage.getItem('theme');
     if (!theme) {
-      theme = 'light';
+      theme = 'dark';
       localStorage.setItem('theme', theme);
     }
     document.body.classList.add(theme);
-    return theme === 'dark';
+    return theme === 'light';
   });
 
   useEffect(() => {

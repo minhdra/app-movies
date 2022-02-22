@@ -159,7 +159,7 @@ function Controls({
       </div>
       {/* Bottom controls */}
       <div className='flex flex-col justify-between items-center p-4 select-none'>
-        <div className='range w-full'>
+        <div className='range w-full mb-2'>
           <Slider
             ref={progress}
             max={Math.ceil(duration)}
@@ -167,7 +167,6 @@ function Controls({
             value={currentTime}
             onChange={(v) => {
               setCurrentTime(v);
-
               playerRef.current?.seekTo(parseFloat(v), 'seconds');
             }}
           />
