@@ -38,8 +38,8 @@ const navigation = [
   },
   {
     id: 5,
-    name: 'All',
-    href: '#',
+    name: 'History',
+    href: '/history',
     icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
   </svg>`,
@@ -89,7 +89,8 @@ const sidebar = {
 
 function Sidebar({ onClick, show }) {
   const [user, setUser] = useState();
-  const [navId, setNavId] = useState(navigation[0].id);
+
+  const url = window.location.pathname;
 
   useEffect(() => {
     setUser({
@@ -147,13 +148,9 @@ function Sidebar({ onClick, show }) {
               {navigation.map((item) => (
                 <Link
                   key={item.name}
-                  onClick={() => {
-                    setNavId(item.id);
-                    onClick(false);
-                  }}
                   to={item.href}
                   className={classNames(
-                    item.id === navId
+                    item?.href === url
                       ? 'text-orange-500 dark:text-orange-500'
                       : 'dark:text-gray-300 text-gray-600 dark:hover:bg-gray-500 dark:hover:text-white',
                     'px-3 py-2 rounded-md text-md font-medium transition duration-100 hover:bg-slate-200 dark:hover:bg-slate-800 flex items-center'
@@ -200,12 +197,14 @@ function Sidebar({ onClick, show }) {
                 <li key={item.id} className='first:mt-0 my-1'>
                   <Link
                     to={item.href}
-                    className={classNames(
-                      navId === item.id
-                        ? 'bg-slate-200 text-slate-900 dark:bg-slate-600'
-                        : '',
-                      'w-16 h-16 text-xs rounded-xl flex flex-col items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-500 transition duration-100'
-                    )}
+                    className={`
+                      ${
+                        url === item?.href
+                          ? 'bg-slate-200 text-slate-900 dark:bg-slate-600'
+                          : ''
+                      }
+                      ' w-16 h-16 text-xs rounded-xl flex flex-col items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-600 transition duration-100'
+                    `}
                   >
                     <span
                       dangerouslySetInnerHTML={{ __html: item.icon }}

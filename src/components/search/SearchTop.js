@@ -83,7 +83,7 @@ function SearchTop() {
               type='text'
               className='border border-transparent focus:border-transparent
                           focus:outline-none bg-transparent placeholder:italic h-full w-full dark:text-white'
-              placeholder='Search name of movies...'
+              placeholder='Search movies...'
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
               // onClick={(e) => e.target.select()}
@@ -95,7 +95,7 @@ function SearchTop() {
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
-                className='h-6 w-6'
+                className='h-6 w-6 hover:text-orange-600'
                 fill='none'
                 viewBox='0 0 24 24'
                 stroke='currentColor'
@@ -198,7 +198,7 @@ function SearchTop() {
                 type='text'
                 className='border border-transparent focus:border-transparent
                               focus:outline-none bg-transparent placeholder:italic h-full w-full dark:text-white'
-                placeholder='Search name of movies...'
+                placeholder='Search movies...'
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
                 // onClick={(e) => e.target.select()}
@@ -211,7 +211,7 @@ function SearchTop() {
               >
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
-                  className='h-6 w-6'
+                  className='h-6 w-6 hover:bg-orange-600'
                   fill='none'
                   viewBox='0 0 24 24'
                   stroke='currentColor'

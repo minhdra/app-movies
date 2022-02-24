@@ -5,8 +5,8 @@ import Notification from './Notification';
 import SearchTop from '../search/SearchTop';
 import Sidebar from './Sidebar';
 import firebase from 'firebase/compat/app';
-import { getAuth, signOut } from 'firebase/auth';
 import 'firebase/compat/auth';
+import { getAuth, signOut } from 'firebase/auth';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -18,8 +18,7 @@ const config = {
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
 };
 // console.log(config)
-if(config.apiKey)
-  firebase.initializeApp(config);
+if (config.apiKey) firebase.initializeApp(config);
 
 const auth = getAuth();
 
@@ -40,14 +39,17 @@ function Header() {
   });
 
   useEffect(() => {
-    const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
-      setIsLogin(!!user);
-      if (user) setUser({
-        id: user.uid,
-        name: user.displayName,
-        avatar: user.photoURL
-      })
-    });
+    const unregisterAuthObserver = firebase
+      .auth()
+      .onAuthStateChanged((user) => {
+        setIsLogin(!!user);
+        if (user)
+          setUser({
+            id: user.uid,
+            name: user.displayName,
+            avatar: user.photoURL,
+          });
+      });
 
     return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
   }, []);
@@ -311,6 +313,22 @@ function Header() {
                 </svg>
               )}
             </button>
+            <Link to={'/'} className='font-bold'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                className='h-6 w-6'
+                fill='none'
+                viewBox='0 0 24 24'
+                stroke='#f97316'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth={2}
+                  d='M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6'
+                />
+              </svg>
+            </Link>
           </div>
           {/* Right navigation */}
           <div className='flex md:pr-4 justify-end items-center'>

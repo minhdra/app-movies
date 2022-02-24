@@ -1,0 +1,29 @@
+.swiper-button-next,
+.swiper-button-prev {
+  @apply bg-black bg-opacity-75 rounded p-4;
+  transition: 0.3s ease-in-out;
+  opacity: 1;
+}
+
+.swiper {
+  &:hover {
+    .swiper-button-next,
+    .swiper-button-prev {
+      opacity: 1 !important;
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+    .swiper-button-disabled {
+      opacity: .35 !important;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .swiper-button-next,
+  .swiper-button-prev,
+  .swiper-button-disabled {
+    opacity: 0 !important;
+  }
+}

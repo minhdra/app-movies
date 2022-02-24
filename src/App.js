@@ -9,6 +9,7 @@ import TvDetail from './view/Tv';
 import { useLocation } from 'react-router-dom';
 import Search from './view/Search';
 import SignIn from './view/SignIn';
+import History from './view/History';
 
 function App() {
   const location = useLocation();
@@ -25,6 +26,7 @@ function App() {
         <Route path='tv/:id' element={<TvDetail />} />
         <Route path='search' element={<Search />} />
         <Route path='sign-in' element={<SignIn />} />
+        <Route path='history' element={<History />} />
         <Route path='*' element={<Navigate to='/' />} />
       </Routes>
     </div>

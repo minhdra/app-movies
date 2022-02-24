@@ -61,6 +61,21 @@ function PlayerDesktop({
           onProgress={(item) => {
             setCurrentTime(item.playedSeconds);
           }}
+          onStart={() => {
+            const history =
+              JSON.parse(localStorage.getItem('history')) || [];
+            const currentMovie = {
+              id: data?.id,
+              name: data?.name,
+              image: data?.coverVerticalUrl,
+              category: data?.category
+            }
+            if (!history.find((item) => item.id === currentMovie.id))
+            {
+              history.push(currentMovie);
+              localStorage.setItem('history', JSON.stringify(history));
+            }
+          }}
           onEnded={() => {
             if (autoPlay) {
               if (

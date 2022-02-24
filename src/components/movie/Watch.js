@@ -4,7 +4,7 @@ import Skeleton from '../shared/Skeleton';
 import { isMobile } from '../../utils/utils';
 import PlayerMobile from './PlayerMobile';
 import SimilarMovie from './SimilarMovie';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import Overlay from '../shared/Overlay';
 import Header from '../shared/Header';
 import Footer from '../shared/Footer';

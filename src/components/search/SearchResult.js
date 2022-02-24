@@ -52,14 +52,14 @@ function Result({ data, keyword }) {
                       className='block'
                     >
                       <div
-                        className='!absolute bottom-0 left-0 z-10 w-full'
+                        className='!absolute bottom-[10px] left-0 z-10 w-full'
                       >
                         <h1 className='whitespace-nowrap text-ellipsis bg-black text-white text-md font-medium bg-opacity-60 p-2 text-center rounded-br-lg rounded-bl-lg group-hover:text-orange-500 overflow-hidden'>
                           {item?.name}
                         </h1>
                       </div>
                       <LazyLoadImage
-                        className='w-full h-[30vh] object-cover rounded-lg transition group-hover:brightness-90 bg-slate-800'
+                        className='w-full object-cover rounded-lg transition group-hover:brightness-90 bg-slate-800'
                         src={item?.coverHorizontalUrl}
                         effect="opacity"
                       />
