@@ -85,6 +85,9 @@ function SearchTop() {
                           focus:outline-none bg-transparent placeholder:italic h-full w-full dark:text-white'
               placeholder='Search movies...'
               value={keyword}
+              onKeyDown={(e) => e.stopPropagation()}
+              onKeyUp={(e) => e.stopPropagation()}
+              onKeyPress={(e) => e.stopPropagation()}
               onChange={(e) => setKeyword(e.target.value)}
               // onClick={(e) => e.target.select()}
             />
@@ -200,6 +203,9 @@ function SearchTop() {
                               focus:outline-none bg-transparent placeholder:italic h-full w-full dark:text-white'
                 placeholder='Search movies...'
                 value={keyword}
+                onKeyDown={(e) => e.stopPropagation()}
+                onKeyUp={(e) => e.stopPropagation()}
+                onKeyPress={(e) => e.stopPropagation()}
                 onChange={(e) => setKeyword(e.target.value)}
                 // onClick={(e) => e.target.select()}
               />

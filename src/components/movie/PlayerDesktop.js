@@ -100,6 +100,9 @@ function PlayerDesktop({
               })),
             },
           }}
+          onError={(e) => {
+            window.location.reload();
+          }}
         />
         <Controls
           playerRef={playerRef}
@@ -117,6 +120,7 @@ function PlayerDesktop({
           playbackRate={playbackRate}
           episodeIndex={episodeIndex}
           data={data}
+          containerRef={containerRef}
           showControls={showControls}
         />
       </div>

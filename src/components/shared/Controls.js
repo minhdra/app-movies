@@ -25,18 +25,23 @@ function Controls({
   playbackRate,
   episodeIndex,
   data,
+  containerRef,
   showControls
 }) {
   const [fullscreen, setFullscreen] = useState(false);
   useEffect(() => {
     fullscreen
-      ? screenfull.request(playerRef.current?.wrapper?.parentElement, {
-          navigationUI: 'hide',
-        })
-      : screenfull.exit();
+    ? screenfull.request(playerRef.current?.wrapper?.parentElement, {
+      navigationUI: 'hide',
+    })
+    : screenfull.exit();
   }, [fullscreen, playerRef]);
-
+  
+  const fullScreenRef = useRef();
   const progress = useRef(null);
+  const nextRef = useRef();
+  const prevRef = useRef();
+  const spaceRef = useRef();
 
   const handleChangeSubtitle = (index) => {
     if (playerRef.current) {
@@ -46,6 +51,39 @@ function Controls({
       setCurrentSubtitle(index);
     }
   };
+  
+  useEffect(() => {
+    function handleKeyPress(e) {
+      if (document.contains(document.activeElement))
+      {
+        console.log(document.activeElement);
+        document.activeElement?.blur();
+      }
+      switch (e.keyCode) {
+        case 32:
+          e.preventDefault();
+          spaceRef.current?.click();
+          break;
+        case 39:
+          nextRef.current?.click();
+          break;
+        case 37:
+          prevRef.current?.click();
+          break;
+        case 70:
+          fullScreenRef.current?.click();
+          break;
+        default:
+          console.log();
+          break;
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyPress);
+
+    return () =>
+      window.removeEventListener("keydown", handleKeyPress);
+  }, [containerRef]);
 
   return (
     <div className={`absolute top-0 left-0 bg-black bg-opacity-40 w-full px-2 h-full flex flex-col justify-between text-white ${showControls ? '' : 'hidden'}`}>
@@ -63,6 +101,7 @@ function Controls({
         <button
           className='px-3'
           data-tooltip='Previous 10s'
+          ref={prevRef}
           onClick={() => {
             if (currentTime >= 10) {
               setCurrentTime(currentTime - 10);
@@ -87,6 +126,7 @@ function Controls({
         </button>
         <button
           className='px-3'
+          ref={spaceRef}
           data-tooltip={playing ? 'Pause' : 'Play'}
           onClick={() => setPlaying(!playing)}
         >
@@ -130,6 +170,7 @@ function Controls({
         </button>
         <button
           className='px-3'
+          ref={nextRef}
           data-tooltip='Next 10s'
           onClick={() => {
             if (currentTime + 10 > duration) {
@@ -343,7 +384,7 @@ function Controls({
                 </div>
               </div>
             </div>
-            <button onClick={() => setFullscreen(!fullscreen)}>
+            <button ref={fullScreenRef} onClick={() => setFullscreen(!fullscreen)}>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 className='h-6 w-6'
