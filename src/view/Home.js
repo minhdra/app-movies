@@ -5,7 +5,7 @@ import Section from '../components/home/Section';
 // import useSWR from 'swr';
 import Skeleton from '../components/shared/Skeleton';
 import SkeletonSlider from '../components/shared/SkeletonSlide';
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Error from '../components/shared/Error';
 import Header from '../components/shared/Header';
 import Footer from '../components/shared/Footer';

@@ -90,7 +90,7 @@ function PlayerDesktop({
             file: {
               attributes: {
                 crossOrigin: '',
-                poster: data?.coverHorizontalUrl,
+                // poster: data?.coverHorizontalUrl,
               },
               tracks: subtitles.map((item, index) => ({
                 kind: 'subtitles',
@@ -101,7 +101,7 @@ function PlayerDesktop({
             },
           }}
           onError={(e) => {
-            window.location.reload();
+            window.location.reload(false);
           }}
         />
         <Controls
