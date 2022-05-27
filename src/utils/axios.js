@@ -2,7 +2,7 @@ import axios from 'axios';
 
 axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 export default axios.create({
-  baseURL: 'https://ga-mobile-api.loklok.tv/cms/app',
+  baseURL: 'https://ezexpress.tk/https://ga-mobile-api.loklok.tv/cms/app',
   headers: {
     lang: 'en',
     versioncode: '11',

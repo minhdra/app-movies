@@ -23,13 +23,13 @@ function History() {
     if (data)
     {
       const endOffset = itemOffset + itemsPerPage;
-      console.log(itemOffset, endOffset)
+      // console.log(itemOffset, endOffset)
       setCurrentData(data.slice(itemOffset, endOffset));
       setPageCount(Math.ceil(data.length / itemsPerPage));
     }
   }, [itemOffset, itemsPerPage, data]);
 
-  console.log(currentData)
+  // console.log(currentData)
 
   useEffect(() => {
     const handleResize = (e) => {

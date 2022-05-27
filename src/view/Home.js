@@ -18,7 +18,6 @@ function Home() {
     setData(null);
     getHome().then(res => setData(res)).catch(error => setError(error));
   }, []);
-
   if (error) return <Error />;
 
   return (

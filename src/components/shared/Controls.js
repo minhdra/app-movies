@@ -56,7 +56,6 @@ function Controls({
     function handleKeyPress(e) {
       if (document.contains(document.activeElement))
       {
-        console.log(document.activeElement);
         document.activeElement?.blur();
       }
       switch (e.keyCode) {
