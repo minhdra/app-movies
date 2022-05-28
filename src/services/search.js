@@ -6,7 +6,7 @@ export const searchKeywords = async (keyword) => {
     size: 10,
   };
 
-  return await fetch('https://ga-mobile-api.loklok.tv/cms/app/search/searchLenovo', {
+  return await fetch('https://ezexpress.tk/https://ga-mobile-api.loklok.tv/cms/app/search/searchLenovo', {
     method: 'POST',
     headers: {
       lang: 'en',
