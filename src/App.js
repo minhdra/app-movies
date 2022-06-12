@@ -10,6 +10,9 @@ import { useLocation } from 'react-router-dom';
 import Search from './view/Search';
 import SignIn from './view/SignIn';
 import History from './view/History';
+import MoviesSearch from './view/MoviesSearch';
+import SeriesSearch from './view/SeriesSearch';
+import AnimeSearch from './view/AnimeSearch';
 
 function App() {
   const location = useLocation();
@@ -27,6 +30,9 @@ function App() {
         <Route path='search' element={<Search />} />
         <Route path='sign-in' element={<SignIn />} />
         <Route path='history' element={<History />} />
+        <Route path='movies' element={<MoviesSearch />} />
+        <Route path='series' element={<SeriesSearch />} />
+        <Route path='anime' element={<AnimeSearch />} />
         <Route path='*' element={<Navigate to='/' />} />
       </Routes>
     </div>

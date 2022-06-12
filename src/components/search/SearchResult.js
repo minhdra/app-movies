@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import Skeleton from '../shared/Skeleton';
 import Filter from '../shared/Filter';
+import Skeleton from '../shared/Skeleton';
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { useEffect, useState } from 'react';
 import Header from '../shared/Header';
 import Footer from '../shared/Footer';
 import 'react-lazy-load-image-component/src/effects/opacity.css';
