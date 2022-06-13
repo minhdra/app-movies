@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { searchAdvanced } from '../../services/searchAdvanced';
 import Skeleton from '../shared/Skeleton';
 import { Link } from 'react-router-dom';
@@ -8,20 +8,25 @@ import ReactPaginate from 'react-paginate';
 
 export default function ResultAdvanced({ config, name }) {
   const [data, setData] = useState();
+  const [root, setRoot] = useState();
   const [area, setArea] = useState('');
   const [category, setCategory] = useState('');
   const [year, setYear] = useState('');
+  const searchRef = useRef();
 
   useEffect(() => {
-    if (name)
-    {
+    if (name) {
       const params = {
         params: name,
         area,
         category,
         year,
       };
-      searchAdvanced(params).then((res) => setData(res));
+      searchAdvanced(params).then((res) => {
+        setData(res);
+        setRoot(res);
+        handleSearch();
+      });
     }
   }, [area, category, year, name]);
 
@@ -32,6 +37,14 @@ export default function ResultAdvanced({ config, name }) {
       setCategory(event.target.value);
     else if (item.name.toLowerCase() === 'all time periods')
       setYear(event.target.value);
+  };
+
+  // Search in page
+  const handleSearch = () => {
+    const list = root.filter(
+      (item) => item.name.indexOf(searchRef.current?.value) !== -1
+    );
+    setData(list);
   };
 
   // Handle pagination
@@ -45,8 +58,7 @@ export default function ResultAdvanced({ config, name }) {
   const [itemOffset, setItemOffset] = useState(0);
   useEffect(() => {
     // Fetch items from another resources.
-    if (data)
-    {
+    if (data) {
       const endOffset = itemOffset + itemsPerPage;
       // console.log(itemOffset, endOffset)
       setCurrentData(data.slice(itemOffset, endOffset));
@@ -55,7 +67,7 @@ export default function ResultAdvanced({ config, name }) {
   }, [itemOffset, itemsPerPage, data]);
 
   const handlePageClick = (event) => {
-    const newOffset = event.selected * itemsPerPage % data.length;
+    const newOffset = (event.selected * itemsPerPage) % data.length;
     setItemOffset(newOffset);
   };
 
@@ -74,26 +86,70 @@ export default function ResultAdvanced({ config, name }) {
   return (
     <div className='flex dark:bg-slate-900 min-h-screen'>
       <div className='pt-24 pb-5 px-4 overflow-hidden w-full'>
-        <div className='flex align-items-center'>
-          {config &&
-            config.map((item) => (
-              <select
-                key={item.id}
-                className='mt-1 block py-2 px-3 border border-gray-300 bg-white dark:bg-slate-600 dark:border-slate-600 font-medium rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mr-4'
-                onChange={(e) => handleOptionChange(e, item)}
-              >
-                {item &&
-                  item.items.map((i) => (
-                    <option
-                      key={i.params}
-                      value={i.params}
-                      className='font-medium'
-                    >
-                      {i.name}
-                    </option>
-                  ))}
-              </select>
-            ))}
+        <div className='flex justify-between'>
+          {config ? (
+            <>
+              {config.length > 0 ? (
+                <>
+                  <div className='flex'>
+                    {config.map((item) => (
+                      <div key={item.id}>
+                        <select
+                          className='mt-1 block py-2 px-3 border border-gray-300 bg-white dark:bg-slate-600 dark:border-slate-600 font-medium rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mr-4'
+                          onChange={(e) => handleOptionChange(e, item)}
+                        >
+                          {item &&
+                            item.items.map((i) => (
+                              <option
+                                key={i.params}
+                                value={i.params}
+                                className='font-medium'
+                              >
+                                {i.name}
+                              </option>
+                            ))}
+                        </select>
+                      </div>
+                    ))}
+                  </div>
+                  <div className='flex items-center'>
+                    <input
+                      type='text'
+                      className='border border-transparent focus:border-transparent
+                                focus:outline-none bg-slate-200 dark:bg-slate-600 placeholder:italic h-full w-full dark:text-white px-4 rounded-tl rounded-bl'
+                      placeholder='Quick search...'
+                      onChange={handleSearch}
+                      ref={searchRef}
+                    />
+                    <label className='inline-flex items-center justify-center bg-slate-200 text-gray-800 px-4 dark:bg-slate-600 h-full rounded-tr rounded-br'>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        className='h-6 w-6'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        stroke='currentColor'
+                      >
+                        <path
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          strokeWidth='2'
+                          d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
+                        />
+                      </svg>
+                    </label>
+                  </div>
+                </>
+              ) : (
+                <></>
+              )}
+            </>
+          ) : (
+            <div className='flex'>
+              <Skeleton className='w-[15%] rounded-md h-10 mr-4' />
+              <Skeleton className='w-[15%] rounded-md h-10 mr-4' />
+              <Skeleton className='w-[15%] rounded-md h-10 mr-4' />
+            </div>
+          )}
         </div>
 
         <div className='py-8'>
@@ -189,12 +245,7 @@ export default function ResultAdvanced({ config, name }) {
             </>
           ) : (
             <div className=''>
-              <div className='flex align-items-center'>
-                <Skeleton className='w-[15%] rounded-md h-10 mr-4' />
-                <Skeleton className='w-[15%] rounded-md h-10 mr-4' />
-                <Skeleton className='w-[15%] rounded-md h-10 mr-4' />
-              </div>
-              <div className='py-8 grid grid-cols-fit gap-x-4 gap-y-6'>
+              <div className='grid grid-cols-fit gap-x-4 gap-y-6'>
                 {[...new Array(10)].map((_, index) => (
                   <Skeleton
                     key={index}
