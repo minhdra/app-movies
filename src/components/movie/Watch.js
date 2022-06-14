@@ -213,7 +213,7 @@ function Watch({ data, sources, subtitles, episodeIndex }) {
                     <h2 className='text-lg font-medium py-1'>
                       You watching episode {episodeIndex}
                     </h2>
-                    <div className='max-h-[90px] overflow-auto'>
+                    <div className='max-h-[200px] overflow-auto'>
                       {data &&
                         data.episodeVo.map((_, index) => (
                           <React.Fragment key={index}>
