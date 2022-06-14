@@ -93,7 +93,7 @@ function Controls({
         transition={{ bounce: 0 }}
         className='flex justify-between items-center py-2'
       >
-        <h1 className='text-md font-medium'>{data.name}</h1>
+        <h1 className='text-lg font-medium'>{data.name} { episodeIndex ? ` - Episode ${episodeIndex}`:'' }</h1>
       </motion.div>
       {/* Middle controls */}
       <div className='flex justify-center'>

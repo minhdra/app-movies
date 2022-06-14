@@ -94,27 +94,14 @@ function Header() {
         <nav className='w-full mx-auto md:flex hidden flex-wrap items-center justify-between p-4'>
           {/* Brand */}
           <div className='flex-shrink-0 flex items-center flex-1 select-none'>
-            <div className='flex items-center'>
+            <div className='flex items-end'>
               <Link
-                className='toggleColour text-gray-800 no-underline hover:no-underline font-bold text-2xl lg:text-4xl flex items-end'
+                className='toggleColour text-gray-800 no-underline hover:no-underline font-bold text-2xl lg:text-4xl flex items-end leading-3'
                 to='/'
               >
                 {/* Icon from: http://www.potlabicons.com/ */}
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  className='h-8 w-8 inline'
-                  fill='none'
-                  viewBox='0 0 24 24'
-                  stroke='currentColor'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth='2'
-                    d='M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z'
-                  />
-                </svg>
-                DRA
+                <img src='/logo.png' />
+                <span className='leading-none'>DRA</span>
               </Link>
             </div>
           </div>

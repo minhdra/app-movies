@@ -41,7 +41,7 @@ export default function ResultAdvanced({ config, name }) {
 
   // Search in page
   const handleSearch = () => {
-    const list = root.filter(
+    const list = root?.filter(
       (item) => item.name.indexOf(searchRef.current?.value) !== -1
     );
     setData(list);

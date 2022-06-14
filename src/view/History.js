@@ -20,8 +20,7 @@ function History() {
 
   useEffect(() => {
     // Fetch items from another resources.
-    if (data)
-    {
+    if (data) {
       const endOffset = itemOffset + itemsPerPage;
       // console.log(itemOffset, endOffset)
       setCurrentData(data.slice(itemOffset, endOffset));
@@ -54,9 +53,18 @@ function History() {
   };
 
   const handlePageClick = (event) => {
-    const newOffset = event.selected * itemsPerPage % data.length;
+    const newOffset = (event.selected * itemsPerPage) % data.length;
     setItemOffset(newOffset);
   };
+
+  const handleRemoveHistory = (id) => {
+    if (window.confirm('Are you sure you want to remove?'))
+    {
+      const newData = data.filter(item => item.id !== id);
+      setData(newData);
+      localStorage.setItem('history', JSON.stringify(newData));
+    }
+  }
 
   return (
     <>
@@ -77,18 +85,38 @@ function History() {
               <motion.div
                 layout
                 className={`${
-                  currentData.length > 4 ? 'grid-cols-fit' : 'grid-cols-4'
+                  currentData.length > 4
+                    ? 'grid-cols-fit'
+                    : 'lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2'
                 } grid gap-x-4 gap-y-6`}
               >
                 {currentData.map((item) => (
-                  <motion.div layout key={item?.id} className='relative group'>
+                  <motion.div layout key={item?.id} className='relative '>
+                    <div 
+                      className='bg-slate-100/40 w-8 h-8 flex justify-center items-center transition cursor-pointer absolute right-0 top-0 z-10 rounded hover:bg-orange-500' 
+                      onClick={()=>handleRemoveHistory(item.id)}>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        className='h-6 w-6'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        stroke='currentColor'
+                        strokeWidth='2'
+                      >
+                        <path
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          d='M6 18L18 6M6 6l12 12'
+                        />
+                      </svg>
+                    </div>
                     <Link
                       to={`${
                         item?.category === 1
-                          ? `/tv/${item?.id}?episode=1`
+                          ? `/tv/${item?.id}?episode=${item?.episode || 1}`
                           : `/movie/${item?.id}`
                       }`}
-                      className='block'
+                      className='block group'
                     >
                       <div className='!absolute bottom-[10px] left-0 z-10 w-full'>
                         <h1 className='whitespace-nowrap text-ellipsis bg-black text-white text-md font-medium bg-opacity-60 p-2 text-center rounded-br-lg rounded-bl-lg group-hover:text-orange-500 overflow-hidden'>

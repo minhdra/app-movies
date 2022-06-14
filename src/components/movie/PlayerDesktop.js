@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import ReactPlayer from 'react-player';
+import { useNavigate } from 'react-router-dom';
 import { srt2wtt } from '../../utils/utils';
 import Controls from '../shared/Controls';
 
@@ -12,6 +13,9 @@ function PlayerDesktop({
   autoPlay,
   nextRef,
 }) {
+  const [history, setHistory] = useState(() => {
+    return JSON.parse(localStorage.getItem('history')) || [];
+  })
   const [playing, setPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
@@ -19,6 +23,8 @@ function PlayerDesktop({
   const [currentSubtitle, setCurrentSubtitle] = useState(0);
   const [playbackRate, setPlaybackRate] = useState(1);
   const [showControls, setShowControls] = useState(true);
+  
+  const navigate = useNavigate(); 
 
   const playerRef = useRef();
   const containerRef = useRef();
@@ -57,22 +63,38 @@ function PlayerDesktop({
           volume={volume / 100}
           playing={playing}
           playbackRate={playbackRate}
-          onDuration={(duration) => setDuration(duration)}
-          onProgress={(item) => {
-            setCurrentTime(item.playedSeconds);
-          }}
-          onStart={() => {
-            const history =
-              JSON.parse(localStorage.getItem('history')) || [];
-            const currentMovie = {
-              id: data?.id,
-              name: data?.name,
-              image: data?.coverVerticalUrl,
-              category: data?.category
-            }
-            if (!history.find((item) => item.id === currentMovie.id))
+          onReady={(e) => {
+            const index = history.findIndex((item) => item.id === data?.id);
+            if (index !== -1)
             {
-              history.push(currentMovie);
+              setCurrentTime(history[index].time??0);
+              playerRef.current.seekTo(history[index].time??0, 'seconds');
+            }
+          }}
+          onDuration={(duration) => setDuration(duration)}
+          onStart={() => {
+            
+          }}
+          onProgress={(item) => {
+            if (playing)
+            {
+              setCurrentTime(item.playedSeconds);
+              const currentMovie = {
+                id: data?.id,
+                name: data?.name,
+                image: data?.coverVerticalUrl,
+                category: data?.category,
+                time: currentTime,
+                episode: episodeIndex
+              }
+              const index = history.findIndex((item) => item.id === currentMovie.id);
+              if (index===-1)
+              {
+                history.unshift(currentMovie);
+                setHistory(history);
+              }
+              else 
+                history[index] = currentMovie;
               localStorage.setItem('history', JSON.stringify(history));
             }
           }}
@@ -85,6 +107,10 @@ function PlayerDesktop({
               )
                 nextRef.current.click();
             } else setPlaying(false);
+
+            const index = history.findIndex((item) => item.id === data?.id);
+            history[index].time = 0;
+            localStorage.setItem('history', JSON.stringify(history));
           }}
           config={{
             file: {
@@ -101,7 +127,8 @@ function PlayerDesktop({
             },
           }}
           onError={(e) => {
-            alert('Have some error 😥');
+            console.log('Sorry... 😢');
+            navigate(0);
           }}
         />
         <Controls

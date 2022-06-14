@@ -11,7 +11,7 @@ function SimilarMovie({ data }) {
     <div className='w-full'>
       {data ? (
         <>
-          {data?.refList && data?.refList.length > 1 && (
+          {data?.refList && data?.refList.length > 0 && (
             <div>
               <h1 className='text-xl font-bold'>Other seasons</h1>
               {data && (
@@ -123,7 +123,7 @@ function SimilarMovie({ data }) {
                       </div>
                     ))}
                   </div>
-                  <div className='md:hidden my-4'>
+                  <div className='md:invisible my-4'>
                     <Swiper
                       modules={[Navigation]}
                       navigation

@@ -1,36 +1,74 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import PlayerDesktop from './PlayerDesktop';
 import Skeleton from '../shared/Skeleton';
 import { isMobile } from '../../utils/utils';
 import PlayerMobile from './PlayerMobile';
 import SimilarMovie from './SimilarMovie';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Overlay from '../shared/Overlay';
 import Header from '../shared/Header';
 import Footer from '../shared/Footer';
+import React from 'react';
 
 function Watch({ data, sources, subtitles, episodeIndex }) {
   const [light, setLight] = useState(true);
   const [autoPlay, setAutoPlay] = useState(false);
+  const [isConfirmed, setIsConfirmed] = useState(false);
 
   const nextRef = useRef();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const history = JSON.parse(localStorage.getItem('history')) || [];
+    if (history.length > 0) {
+      const item = history.find((item) => item.id === data?.id);
+      if (item && item.episode && item.episode !== episodeIndex) {
+        if (
+          window.confirm(
+            `Last episode is ${item.episode}. Do you wanna to go this episode?`
+          )
+        ) {
+          navigate(`/tv/${item.id}?episode=${item.episode}`, { replace: true });
+        } else {
+          item.time = 0;
+          setIsConfirmed(true);
+        }
+      } else setIsConfirmed(true);
+    } else setIsConfirmed(true);
+    localStorage.setItem('history', JSON.stringify(history));
+  }, [data]);
+
+  const handleChangeEpisode = (i) => {
+    const history = JSON.parse(localStorage.getItem('history')) || [];
+    if (history.length > 0) {
+      const index = history.findIndex((item) => item.id === data?.id);
+      if (index !== -1) {
+        history[index].time = 0;
+        history[index].episode = i;
+        localStorage.setItem('history', JSON.stringify(history));
+      }
+    }
+  };
 
   return (
     <>
-      <Header/>
+      <Header />
       {!light && <Overlay opacity={100} zIndex={40} />}
       <div className='flex md:flex-row dark:bg-slate-900 min-h-screen px-4'>
         <div className='pt-24 lg:px-4 w-full'>
           <div className='md:flex'>
             <div className='w-full md:pr-4 md:border-r md:border-slate-400'>
               <div className={`w-full mb-4`}>
-                {data && sources && subtitles ? (
+                {data && sources && subtitles && isConfirmed ? (
                   isMobile() ? (
                     <PlayerMobile
                       data={data}
                       sources={sources}
                       subtitles={subtitles}
+                      episodeIndex={episodeIndex}
                       light={light}
+                      autoPlay={autoPlay}
+                      nextRef={nextRef}
                     />
                   ) : (
                     <PlayerDesktop
@@ -39,8 +77,8 @@ function Watch({ data, sources, subtitles, episodeIndex }) {
                       subtitles={subtitles}
                       episodeIndex={episodeIndex}
                       light={light}
-                        autoPlay={autoPlay}
-                        nextRef={nextRef}
+                      autoPlay={autoPlay}
+                      nextRef={nextRef}
                     />
                   )
                 ) : (
@@ -127,7 +165,7 @@ function Watch({ data, sources, subtitles, episodeIndex }) {
                     </Link>
                     <button
                       className='rounded-md border border-slate-600 px-3 mr-2 mb-2 hover:bg-orange-600 hover:border-orange-600 flex items-center'
-                      onClick={()=>setAutoPlay(!autoPlay)}
+                      onClick={() => setAutoPlay(!autoPlay)}
                     >
                       Auto play: {autoPlay ? 'On' : 'Off'}
                     </button>
@@ -178,18 +216,26 @@ function Watch({ data, sources, subtitles, episodeIndex }) {
                     <div className='max-h-[90px] overflow-auto'>
                       {data &&
                         data.episodeVo.map((_, index) => (
-                          <Link
-                            key={index}
-                            to={`/tv/${data.id}?episode=${index + 1}`}
-                            className={`w-[35px] h-[35px] leading-none inline-flex items-center justify-center rounded-lg mr-1 my-1 border border-slate-300 hover:bg-orange-500 hover:text-white transition duration-75 ${
-                              index + 1 === episodeIndex
-                                ? 'bg-orange-500 text-white'
-                                : ''
-                            }`}
-                            type='button'
-                          >
-                            {index + 1}
-                          </Link>
+                          <React.Fragment key={index}>
+                            {index + 1 === episodeIndex ? (
+                              <span className='bg-orange-500 text-white w-[35px] h-[35px] leading-none inline-flex items-center justify-center rounded-lg mr-1 my-1 border border-slate-300 hover:bg-orange-500 hover:text-white transition duration-75'>
+                                {index + 1}
+                              </span>
+                            ) : (
+                              <Link
+                                to={`/tv/${data.id}?episode=${index + 1}`}
+                                className={`w-[35px] h-[35px] leading-none inline-flex items-center justify-center rounded-lg mr-1 my-1 border border-slate-300 hover:bg-orange-600 dark:hover:bg-orange-600 hover:text-white transition duration-75 ${
+                                  index + 1 < episodeIndex
+                                    ? 'dark:bg-slate-600 dark:text-white bg-slate-300 '
+                                    : ''
+                                }`}
+                                type='button'
+                                onClick={() => handleChangeEpisode(index + 1)}
+                              >
+                                {index + 1}
+                              </Link>
+                            )}
+                          </React.Fragment>
                         ))}
                     </div>
                   </div>
@@ -262,7 +308,7 @@ function Watch({ data, sources, subtitles, episodeIndex }) {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 }
