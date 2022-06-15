@@ -1,63 +1,90 @@
-
 body {
-    &.dark {
-        @apply text-slate-200 bg-slate-900;
-        & nav, aside {
-            @apply bg-slate-900;
-        }
-        & a, svg {
-            @apply text-slate-200;
-        }
+  &.dark {
+    @apply text-slate-200 bg-slate-900;
+    & nav,
+    aside {
+      @apply bg-slate-900;
     }
+    & a,
+    svg {
+      @apply text-slate-200;
+    }
+  }
 
-    &.light {
-        @apply text-slate-900 bg-slate-50;
-    }
+  &.light {
+    @apply text-slate-900 bg-slate-50;
+  }
 
-    &.dark .ball {
-        @apply translate-x-full;
-    }
-    &.light .ball {
-        @apply -translate-x-0;
-    }
+  &.dark .ball {
+    @apply translate-x-full;
+  }
+  &.light .ball {
+    @apply -translate-x-0;
+  }
 }
 
 #toggle-dark:checked + label .ball {
-    @apply translate-x-full;
+  @apply translate-x-full;
 }
 
-.swiper-button-prev:after, .swiper-button-next:after {
-    @apply text-orange-600;
-    font-size: 32px !important;
+.swiper-button-prev:after,
+.swiper-button-next:after {
+  @apply text-orange-600;
+  font-size: 32px !important;
 }
 
 .swiper-pagination-bullet-active {
-    background-color: rgb(234 88 12) !important;
+  background-color: rgb(234 88 12) !important;
 }
 
 [data-tooltip] {
-    @apply relative;
+  @apply relative;
 
-    &:hover {
-        &::after {
-            @apply opacity-100 -top-2;
-        }
-        &::before {
-            @apply top-[-10px] opacity-100;
-        }
-    }
-
+  &:hover {
     &::after {
-        @apply content-[attr(data-tooltip)] absolute top-0 left-1/2 -translate-y-full -translate-x-1/2 w-max bg-slate-300 dark:bg-slate-800 py-1 px-2 rounded-md opacity-0 transition-all pointer-events-none whitespace-nowrap text-base;
+      @apply opacity-100 -top-2;
     }
-
     &::before {
-        @apply content-[''] absolute top-[4px] border-8 border-transparent border-t-slate-300 dark:border-t-slate-800 transition-all  opacity-0 left-1/2 -translate-x-1/2 pointer-events-none;
+      @apply top-[-10px] opacity-100;
     }
+  }
 
+  &::after {
+    @apply content-[attr(data-tooltip)] absolute top-0 left-1/2 -translate-y-full -translate-x-1/2 w-max bg-slate-300 dark:bg-slate-800 py-1 px-2 rounded-md opacity-0 transition-all pointer-events-none whitespace-nowrap text-base;
+  }
+
+  &::before {
+    @apply content-[''] absolute top-[4px] border-8 border-transparent border-t-slate-300 dark:border-t-slate-800 transition-all  opacity-0 left-1/2 -translate-x-1/2 pointer-events-none;
+  }
 }
 
 .bg-sign-in {
-    background: url('../../../public/images/bg-sign-in.jpg') no-repeat center;
-    background-size: cover;
+  background: url('../../../public/images/bg-sign-in.jpg') no-repeat center;
+  background-size: cover;
+}
+
+.svgLoader {
+  margin: auto;
+  z-index: 1000;
+  width: 100px;
+  height: 100px;
+}
+.divLoader {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  @apply dark:bg-slate-800 bg-slate-200;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

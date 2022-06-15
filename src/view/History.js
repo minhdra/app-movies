@@ -58,13 +58,12 @@ function History() {
   };
 
   const handleRemoveHistory = (id) => {
-    if (window.confirm('Are you sure you want to remove?'))
-    {
-      const newData = data.filter(item => item.id !== id);
+    if (window.confirm('Are you sure you want to remove?')) {
+      const newData = data.filter((item) => item.id !== id);
       setData(newData);
       localStorage.setItem('history', JSON.stringify(newData));
     }
-  }
+  };
 
   return (
     <>
@@ -88,13 +87,16 @@ function History() {
                   currentData.length > 4
                     ? 'grid-cols-fit'
                     : 'lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2'
-                } grid gap-x-4 gap-y-6`}
+                  } grid gap-x-4 gap-y-6`}
+                style={{alignItems: 'start'}}
               >
                 {currentData.map((item) => (
-                  <motion.div layout key={item?.id} className='relative '>
-                    <div 
-                      className='bg-slate-100/40 w-8 h-8 flex justify-center items-center transition cursor-pointer absolute right-0 top-0 z-10 rounded hover:bg-orange-500' 
-                      onClick={()=>handleRemoveHistory(item.id)}>
+                  <motion.div layout key={item?.id} className='relative dark:bg-slate-600 bg-slate-300 leading-[0] rounded-lg'>
+                    <div
+                      className='bg-slate-100/40 w-8 h-8 flex justify-center items-center transition cursor-pointer absolute right-0 top-0 z-10 rounded hover:bg-orange-500'
+                      title='Delete'
+                      onClick={() => handleRemoveHistory(item.id)}
+                    >
                       <svg
                         xmlns='http://www.w3.org/2000/svg'
                         className='h-6 w-6'
@@ -118,8 +120,11 @@ function History() {
                       }`}
                       className='block group'
                     >
-                      <div className='!absolute bottom-[10px] left-0 z-10 w-full'>
-                        <h1 className='whitespace-nowrap text-ellipsis bg-black text-white text-md font-medium bg-opacity-60 p-2 text-center rounded-br-lg rounded-bl-lg group-hover:text-orange-500 overflow-hidden'>
+                      <div
+                        className='!absolute bottom-0 left-0 z-10 w-full'
+                        data-tooltip={item.name}
+                      >
+                        <h1 className='whitespace-nowrap text-ellipsis bg-black text-white text-md font-medium bg-opacity-60 p-2 text-center rounded-br-lg rounded-bl-lg group-hover:text-orange-500 overflow-hidden leading-[2]'>
                           {item?.name}
                         </h1>
                       </div>
@@ -151,7 +156,7 @@ function History() {
           </div>
         )}
         <ReactPaginate
-          className='flex px-4 mb-8 justify-center select-none'
+          className='flex py-4 px-4 mb-8 justify-center select-none'
           pageClassName='px-2 font-medium hover:bg-orange-600 hover:text-white rounded-md mx-1'
           activeClassName='bg-orange-600 text-white rounded-md'
           disabledClassName='opacity-40'

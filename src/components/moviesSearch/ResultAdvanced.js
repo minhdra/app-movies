@@ -162,12 +162,13 @@ export default function ResultAdvanced({ config, name }) {
                     className={`${
                       currentData.length > 2 ? 'grid-cols-fit' : 'grid-cols-2'
                     } grid gap-x-4 gap-y-6`}
+                    style={{ alignItems: 'start' }}
                   >
                     {currentData.map((item) => (
                       <motion.div
                         layout
                         key={item.id}
-                        className='relative group'
+                        className='relative group dark:bg-slate-600 bg-slate-300 leading-[0] rounded-lg'
                       >
                         <Link
                           to={`${
@@ -177,8 +178,11 @@ export default function ResultAdvanced({ config, name }) {
                           }`}
                           className='block'
                         >
-                          <div className='!absolute bottom-[10px] left-0 z-10 w-full'>
-                            <h1 className='whitespace-nowrap text-ellipsis bg-black text-white text-md font-medium bg-opacity-60 p-2 text-center rounded-br-lg rounded-bl-lg group-hover:text-orange-500 overflow-hidden'>
+                          <div
+                            className='!absolute bottom-0 left-0 z-10 w-full'
+                            data-tooltip={item.name}
+                          >
+                            <h1 className='whitespace-nowrap text-ellipsis bg-black text-white text-md font-medium bg-opacity-60 p-2 text-center rounded-br-lg rounded-bl-lg group-hover:text-orange-500 overflow-hidden leading-[2]'>
                               {item?.name}
                             </h1>
                           </div>
@@ -192,7 +196,7 @@ export default function ResultAdvanced({ config, name }) {
                     ))}
                   </motion.div>
                   <ReactPaginate
-                    className='flex px-4 mb-8 justify-center select-none'
+                    className='flex py-4 px-4 mb-8 justify-center select-none'
                     pageClassName='px-2 font-medium hover:bg-orange-600 hover:text-white rounded-md mx-1'
                     activeClassName='bg-orange-600 text-white rounded-md'
                     disabledClassName='opacity-40'

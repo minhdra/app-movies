@@ -3,12 +3,13 @@ import { useEffect } from 'react';
 const fill = ['All', 'Movies', 'Tv series'];
 function Filter({ data, setFiltered, active, setActive }) {
   useEffect(() => {
-    if (active === 0) {
+    if (active === 0)
       setFiltered(data);
-      return;
+    else
+    {
+      const filtered = data.filter((item) => item.domainType === active - 1);
+      setFiltered(filtered);
     }
-    const filtered = data.filter((item) => item.domainType || item.category === active - 1);
-    setFiltered(filtered);
   }, [active, data, setFiltered]);
 
   return (
