@@ -365,7 +365,7 @@ function Controls({
                   />
                 </svg>
               </button>
-              <div className='subtitle-list !absolute top-[-420%] left-1/2 -translate-y-1/2 -translate-x-1/2 px-2 py-3 bg-black bg-opacity-60 rounded-md hidden overflow-auto max-h-[200px] max-w-[125px]'>
+              <div className='subtitle-list !absolute top-[-420%] left-1/2 -translate-y-1/2 -translate-x-1/2 px-2 py-3 bg-black bg-opacity-60 rounded-md hidden overflow-auto h-[200px] max-w-[125px]'>
                 <div className='flex flex-col overflow-hidden'>
                   {subtitles?.map((sub, index) => (
                     <span

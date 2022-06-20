@@ -4,7 +4,15 @@ import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-const PlayerMobile = ({ data, sources, subtitles, light, episodeIndex, autoPlay, nextRef }) => {
+const PlayerMobile = ({
+  data,
+  sources,
+  subtitles,
+  light,
+  episodeIndex,
+  autoPlay,
+  nextRef,
+}) => {
   const [history, setHistory] = useState(() => {
     return JSON.parse(localStorage.getItem('history')) || [];
   });
@@ -30,12 +38,11 @@ const PlayerMobile = ({ data, sources, subtitles, light, episodeIndex, autoPlay,
           onLoadedData={() => {
             setLoadedData(true);
             const index = history.findIndex((item) => item.id === data.id);
-            const time = index===-1?0:history[index].time;
+            const time = index === -1 ? 0 : history[index].time;
             playerRef.current && (playerRef.current.currentTime = time);
           }}
           onTimeUpdate={() => {
-            if (play)
-            {
+            if (play) {
               const currentTime = playerRef.current.currentTime;
               const currentMovie = {
                 id: data?.id,
@@ -43,16 +50,15 @@ const PlayerMobile = ({ data, sources, subtitles, light, episodeIndex, autoPlay,
                 image: data?.coverVerticalUrl,
                 category: data?.category,
                 time: currentTime,
-                episode: episodeIndex
-              }
-              const index = history.findIndex((item) => item.id === currentMovie.id);
-              if (index===-1)
-              {
+                episode: episodeIndex,
+              };
+              const index = history.findIndex(
+                (item) => item.id === currentMovie.id
+              );
+              if (index === -1) {
                 history.unshift(currentMovie);
                 setHistory(history);
-              }
-              else 
-                history[index] = currentMovie;
+              } else history[index] = currentMovie;
               localStorage.setItem('history', JSON.stringify(history));
             }
           }}
@@ -62,15 +68,30 @@ const PlayerMobile = ({ data, sources, subtitles, light, episodeIndex, autoPlay,
                 episodeIndex &&
                 episodeIndex < data?.episodeVo?.length &&
                 nextRef.current
-              )
-                nextRef.current.click();
-            } else setPlay(false);
+              ) {
+                const index = history.findIndex((item) => item.id === data?.id);
+                if (index !== -1) {
+                  history[index].time = 0;
+                  history[index].episode = episodeIndex + 1;
+                  localStorage.setItem('history', JSON.stringify(history));
+                  navigate(`/tv/${data?.id}?episode=${episodeIndex + 1}`, {
+                    replace: true,
+                  });
+                }
+              }
+            } else {
+              setPlay(false);
 
-            const index = history.findIndex((item) => item.id === data?.id);
-            history[index].time = 0;
-            localStorage.setItem('history', JSON.stringify(history));
+              const index = history.findIndex((item) => item.id === data?.id);
+              history[index].time = 0;
+              if (!episodeIndex) {
+                const newData = history.filter((item) => item.id !== data.id);
+                localStorage.setItem('history', JSON.stringify(newData));
+              } else localStorage.setItem('history', JSON.stringify(history));
+            }
           }}
           onError={(e) => {
+            console.log(e);
             navigate(0);
           }}
         >

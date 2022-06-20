@@ -15,7 +15,7 @@ function PlayerDesktop({
 }) {
   const [history, setHistory] = useState(() => {
     return JSON.parse(localStorage.getItem('history')) || [];
-  })
+  });
   const [playing, setPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
@@ -23,8 +23,8 @@ function PlayerDesktop({
   const [currentSubtitle, setCurrentSubtitle] = useState(0);
   const [playbackRate, setPlaybackRate] = useState(1);
   const [showControls, setShowControls] = useState(true);
-  
-  const navigate = useNavigate(); 
+
+  const navigate = useNavigate();
 
   const playerRef = useRef();
   const containerRef = useRef();
@@ -65,19 +65,15 @@ function PlayerDesktop({
           playbackRate={playbackRate}
           onReady={(e) => {
             const index = history.findIndex((item) => item.id === data?.id);
-            if (index !== -1)
-            {
-              setCurrentTime(history[index].time??0);
-              playerRef.current.seekTo(history[index].time??0, 'seconds');
+            if (index !== -1) {
+              setCurrentTime(history[index].time ?? 0);
+              playerRef.current.seekTo(history[index].time ?? 0, 'seconds');
             }
           }}
           onDuration={(duration) => setDuration(duration)}
-          onStart={() => {
-            
-          }}
+          onStart={() => {}}
           onProgress={(item) => {
-            if (playing)
-            {
+            if (playing) {
               setCurrentTime(item.playedSeconds);
               const currentMovie = {
                 id: data?.id,
@@ -85,17 +81,17 @@ function PlayerDesktop({
                 image: data?.coverVerticalUrl,
                 category: data?.category,
                 time: currentTime,
-                episode: episodeIndex
-              }
-              const index = history.findIndex((item) => item.id === currentMovie.id);
-              if (index===-1)
-              {
+                episode: episodeIndex,
+              };
+              const index = history.findIndex(
+                (item) => item.id === currentMovie.id
+              );
+              if (index === -1) {
                 history.unshift(currentMovie);
                 setHistory(history);
-              }
-              else 
-                history[index] = currentMovie;
-              localStorage.setItem('history', JSON.stringify(history));
+              } else history[index] = currentMovie;
+              if (item.playedSeconds > 5)
+                localStorage.setItem('history', JSON.stringify(history));
             }
           }}
           onEnded={() => {
@@ -104,13 +100,25 @@ function PlayerDesktop({
                 episodeIndex &&
                 episodeIndex < data?.episodeVo?.length &&
                 nextRef.current
-              )
-                nextRef.current.click();
-            } else setPlaying(false);
+              ) {
+                const index = history.findIndex((item) => item.id === data?.id);
+                if (index !== -1) {
+                  history[index].time = 0;
+                  history[index].episode = episodeIndex + 1;
+                  localStorage.setItem('history', JSON.stringify(history));
+                  nextRef.current.click();
+                }
+              }
+            } else {
+              setPlaying(false);
 
-            const index = history.findIndex((item) => item.id === data?.id);
-            history[index].time = 0;
-            localStorage.setItem('history', JSON.stringify(history));
+              const index = history.findIndex((item) => item.id === data?.id);
+              history[index].time = 0;
+              if (!episodeIndex) {
+                const newData = history.filter((item) => item.id !== data.id);
+                localStorage.setItem('history', JSON.stringify(newData));
+              } else localStorage.setItem('history', JSON.stringify(history));
+            }
           }}
           config={{
             file: {
