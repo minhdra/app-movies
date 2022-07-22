@@ -25,7 +25,6 @@ export default function ResultAdvanced({ config, name }) {
       searchAdvanced(params).then((res) => {
         setData(res);
         setRoot(res);
-        handleSearch();
       });
     }
   }, [area, category, year, name]);
@@ -44,7 +43,6 @@ export default function ResultAdvanced({ config, name }) {
     const list = root?.filter(
       (item) => item.name.indexOf(searchRef.current?.value) !== -1
     );
-    setData(list);
   };
 
   // Handle pagination
